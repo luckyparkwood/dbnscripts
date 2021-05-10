@@ -1,0 +1,87 @@
+#!/bin/bash
+. /etc/dbntool/scripts/functions.cfg
+
+flag_mode="yes"
+
+while getopts c:i:d:svh flag
+do
+	case "${flag}" in
+		v) echo "${flag} not yet implented"; exit;;
+		c) custContext=${OPTARG};;
+		i) inFile=${OPTARG};;
+		d) dbnNum=${OPTARG};;
+		s) safe_mode="yes";;
+		h) echo "Usage: dbntool auto new-dbn -i [inputFile] -c [custContext] -d [dbnNumber] -s (Safe Mode)"; exit;;
+		?) echo "invalid flag, exiting" >&2; exit;;
+	esac
+done
+
+if [[ -z $custContext || -z $inFile || -z $dbnNum ]] ; then
+	echo "All variables -i -c -d  must be present to run in Auto mode. Use -s to run in Safe Mode to preview changes."
+	exit
+fi
+
+
+if [[ $safe_mode == "yes" ]] ; then
+	echo "
+	STARTING DRY RUN
+	"
+	cd "$(pwd $inFile)"
+	echo "================ input file..."
+	cat "$inFile"
+	echo
+	echo "================ formatting inputFile..."
+	dbntool file fix-name -s -i "$inFile"
+	mv ./tempFile.csv ./fix-tempFile.csv
+	echo
+	echo "================ checking directory and recording PIN..."
+	dbntool new dbn-directory -s -c $custContext -i ./fix-tempFile.csv
+	echo 
+	echo "================ testing csv-import..."
+	dbntool file csv-import -s -i ./fix-tempFile.csv
+	echo
+	echo "================ testing dbn_voicemail add..."
+	dbntool file push_dbn_voicemail.conf -s -c $custContext 
+	echo
+	echo "================ testing dbn_extensions add..."
+	dbntool file push_dbn_extensions.conf -s -c $custContext -d $dbnNum
+	echo
+	echo "
+	DRY RUN FINISHED
+	"
+	rm tempFile.csv fix-tempFile.csv acc-tempFile.csv vm-tempFile.csv
+	exit
+fi
+
+_err_check () {
+if [[ $? -eq 1 ]] ; then
+	echo "exiting with error status $?"
+	exit
+fi
+}
+
+# navigate to source file directory
+cd "$(pwd $inFile)"
+
+# run fix-name tool to validate inFile
+dbntool file fix-name -i "$inFile"
+_err_check
+inFile="$(echo "$inFile" | sed 's/ //g')"
+
+# create new directory and PIN for new DBN
+dbntool new dbn-directory -c "$custContext" -i "$inFile"
+_err_check
+cd "$dir_ccdbn""$custContext"
+
+# process inputFile to create accounts.csv and vm_conf.add
+dbntool file csv-import -c "$custContext" -i "$inFile"
+_err_check
+
+# push vm_conf.add to dbn_voicemail.conf
+dbntool file push_dbn_voicemail.conf -c $custContext 
+
+#create context and add dbnNumber to dbn_extensions.conf
+dbntool file push_dbn_extensions.conf -c $custContext -d $dbnNum
+
+echo "New DBN for $custContext created and added to production files. Check git diff for errors before pushing to production servers."
+echo "finished"

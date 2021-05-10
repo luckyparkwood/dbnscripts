@@ -1,0 +1,121 @@
+DBN Workflow
+
+Preparing a DBN DID
+Upload/pick free number in 'YYY SYNETY SALES DEMO ACCOUNT' in PortaBilling
+	try to get 313 for consistency, but actual number doesnt matter
+Go to number settings in PortaBilling
+	> Service Settings > Incoming
+		Change register server to 'dialbyname.cloudcall.com'
+			this can change randomly due to portabilling auto setting changes, check this if the dbn doesnt reach the prompt
+		change ring type to 'Ring Only'
+In the customer portal for 'YYY SYNETY SALES DEMO ACCOUNT'
+	Go to the number settings
+		Change Firstname to the [CUSTOMERCONTEXT]
+		Change last name to 'DialByName'
+		Change email address to 'dbn@cloudcall.com'
+
+In Powershell or CMD
+
+IMPORTING AND PREPARING THE CSV
+Import CSV via sftp to home folder
+	sftp [STAGING.SERVER.IP.ADDRESS]
+	put [IMPORTED.FILENAME]
+		must be csv with column order (First name, Last name, DID)
+
+Check csv file format for invisible characters that will break scripts and check column order
+	cat [IMPORTED.FILENAME]
+		print contents of file to check column order
+	file [IMPORTED.FILENAME]
+		show file type to check for invisible characters
+	dbntool file fix-name [IMPORTED.FILENAME]
+		removes header row if it exists
+		removes invisible characters
+		removes double spaces
+	dbntool file column-order
+		changes column order, input column order separated by space (ex. 2 3 1)
+
+
+CREATING THE NEW DIRECTORY AND RECORDING PIN
+Navigate to CCdbn directory
+	cd /var/lib/asterisk/CCdbn
+Make new DBN directory
+	mkdir [CUSTCONTEXT]
+		must be unique to customer
+		avoid spaces or special characters (scripts are untested for those)
+Create new DBN recording PIN
+	dbntool new recording-pin
+		it will ask for new customer context. Keep the customer context consistent throughout the build.
+navigate to the new directory
+	cd ./[CUSTCONTEXT]
+move imported CSV to the new directory
+	mv /home/[USERNAME]/[IMPORTED.FILENAME] ./
+
+
+PROCESSING THE CSV TO CREATE THE NEW FILES
+process csv to create accounts.csv and vm_conf.add
+	dbntool file csv-import [IMPORTED.FILENAME]
+		will not create files if there are existing files in the directory (prevents overriding current users)
+check new files for accuracy
+	check accounts file for correct column order
+		cat accounts.csv
+	check vm_conf.add for correct info in the right spots
+		cat vm_conf.add
+push the new files to asterisk configuration
+	dbntool file push_dbn_voicemail.conf
+	dbntool file push_dbn_extensions.conf
+		command will ask for prepared DBN DID that was configured previously in portabilling
+
+The basic configuration is ready for production.
+
+Before pushing, log changes to git for version control.
+
+LOGGING CHANGES WITH GIT
+Add new and modified files to staging
+	dbntool log git-add
+check the stage for the changes you made
+	git diff --staged
+if everything looks good, commit the changes.
+comment what was done for which customers to allow easy finding of changes made to DBN files.
+	git commit
+		scroll to top and type commit comment on first line
+
+
+PUSHING CHANGES TO PRODUCTION AND RELOADING ASTERISK
+Push changes from the staging server to the 2 production dialbyname servers
+	dbntool production push_2_prod
+		packages all asterisk files in /etc/asterisk/ and recordings in /var/spool/asterisk/voicemail/ into a tar archive.
+		uploads the archive to both servers
+once the upload is complete, reload asterisk on both servers
+	dbntool production remote_reload
+		will ask for password twice on both servers, once for access, once for sudo to run the reload script on the local servers.
+
+
+PREPARING DATA FOR PROVISIONING/SUPPORT
+	dbntool file export-accounts will push a coly of the customer account to /home/chris/htmlchris/saved with customer name and date.
+	a url to the file download wil print to the console with dial by name customer information to copy and send to provisioning or support.
+	CCVPN needs to be on to access the server.
+
+
+run show command to get recording pin and dbn number
+	dbntool show get-printout
+		copy text and reply to dbn request email with the above text and downloaded accounts.csv file
+
+Other functions
+
+PROCESSING FILE UPDATES WITH CSV-IMPORT
+	as previsouly mentioned, csv-import won't overwrite existing accounts.csv or vm_conf.add files
+	to  process a csv as update, rename accounts.csv to accounts.csv.$(date +"%Y%m%d") (or anything else). 
+	also move all other files to new folder called old files as backups/historical data
+		mkdir old_files
+		cp accounts.csv accounts.csv.$(date +"%Y%m%d")
+		mkdir old_files
+	move files and add date to filename for records
+		mv vm_conf.add.$(date +"%Y%m%d") ./old_files
+	process the csv to create new files
+		dbntool file csv-import
+	after new accounts.csv is created, cat the contents of the original file and pipe it into the new file
+	doing it this way will put the new names at the top of the list
+		cat accounts.csv.$(date +"%Y%m%d") > accounts.csv
+	move the old accounts file to the old files
+		mv accounts.csv.$(date +"%Y%m%d") ./old_files
+Show Commands	

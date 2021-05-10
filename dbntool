@@ -1,0 +1,108 @@
+#!/bin/bash
+. /etc/dbntool/scripts/functions.cfg
+#include /etc/dbntool/
+#include /etc/dbntool/scripts/
+
+
+if [ -z "$1" ]; then
+	cat /etc/dbntool/readme.txt
+else
+	#echo "Variables: $*"
+	case $1 in
+		"update") /etc/dbntool/scripts/update_dbn.sh ;;
+
+		"log")
+			case $2 in
+				"backup") /etc/dbntool/scripts/log_backup.sh ;;
+				"write-changes") echo "disabled, use git for version control" ;;
+				"clean-up") /etc/dbntool/scripts/log_clean-up.sh ;;
+				"show-diff") echo "disabled, use git for version control" ;;
+			esac ;;
+
+		"new")
+			case $2 in
+				"recording-pin") /etc/dbntool/scripts/new_recording_pin.sh "${@:3}" ;;
+				"dbn-directory") /etc/dbntool/scripts/new_dbn-directory.sh "${@:3}" ;;
+
+			esac ;;
+
+		"add")
+			case $2 in
+				"user")	if [[ -z $3 ]] ; then
+						echo 
+						read -p "no input file, add single user?" -n 1 -r
+						echo
+						if [[ $REPLY =~ ^[Yy]$ ]] ; then
+							/etc/dbntool/scripts/add_user-wizard.sh
+						else
+							echo "no input file, exiting"
+							exit
+						fi
+					else
+						/etc/dbntool/scripts/add_dbn_users.sh "${@:3}"
+					fi ;;
+			esac ;;
+
+		"change")
+			case $2 in
+				"bulk-change-field") echo "Not yet configured" ;;
+				"move-recordings") /etc/dbntool/scripts/move_recordings.sh $3 ;;
+				"field") /etc/dbntool/scripts/change_field.sh ;;
+			esac ;;
+
+		"remove")
+			case $2 in
+				"user") /etc/dbntool/scripts/remove_users.sh $3 ;;
+				"bulk-remove") echo "Not yet configured" ;;
+				"vmcontext") /etc/dbntool/scripts/remove_vmcontext.sh ;;
+			esac ;;
+	
+		"production")
+			case $2 in
+				"push-2-prod") 	/etc/dbntool/scripts/prod_push-2-prod.sh ;;
+				"remote-reload") /etc/dbntool/scripts/prod_remote-update.sh ;;
+				"login") echo "Not yet configured" ;;
+				"show-reload-logs") /etc/dbntool/scripts/prod_show-reloadlogs.sh ;;				
+			esac ;;
+		
+		"show")
+			case $2 in
+				"customer-info") /etc/dbntool/scripts/show_customer.sh $3 ;;
+				"recording-pin")
+					if [ -z $3 ] ; then
+						/etc/dbntool/scripts/show_recording_pin.sh	
+					elif  [[ $3 == "all" ]] ; then
+						cat /var/lib/asterisk/CCdbn/record_passwords.csv
+					else
+						/etc/dbntool/scripts/show_recording_pin.sh $3
+					fi ;;
+				"name-recordings") /etc/dbntool/scripts/show_name-recordings.sh "$3" ;;
+				"logs") echo "Not yet configured" ;;
+				"get-printout") /etc/dbntool/scripts/get-printout.sh $3 ;;
+			esac ;;
+		
+		"file")
+			case $2 in
+				"column-order") /etc/dbntool/scripts/column_order.sh $3 ;;
+				"fix-name") /etc/dbntool/scripts/fix_name.sh "${@:3}" ;;
+				"accounts.csv") ;;
+				"vm_conf.add") ;;
+				"push_dbn_extensions.conf") /etc/dbntool/scripts/add_dbn_extensions.sh "${@:3}" ;;
+				"push_dbn_voicemail.conf") /etc/dbntool/scripts/add_dbn_voicemail.sh "${@:3}" ;;
+				"csv-import") /etc/dbntool/scripts/file_csv-import.sh "${@:3}" ;;
+				"export-accounts") /etc/dbntool/scripts/file_export-accounts.sh $3 ;;
+				"reorder-accounts") /etc/dbntool/scripts/file_reorder.sh $3 ;;
+			esac ;;
+		"help")
+			cat /etc/dbntool/readme.txt ;;
+		"git")
+			case $2 in
+				"add") /etc/dbntool/scripts/git_add.sh ;;
+				"show-trackedfiles") /etc/dbntool/scripts/git_show-trackedfiles.sh ;;
+			esac ;;
+		"auto")
+			case $2 in
+				"new-dbn") /etc/dbntool/scripts/auto_new-dbn.sh "${@:3}" ;;
+			esac ;;
+	esac
+fi
