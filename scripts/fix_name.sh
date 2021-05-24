@@ -41,6 +41,12 @@ else
 fi
 }
 
+_check_colNum () {
+if [[ $(head -1 $fileName | awk -F, '{print NF}') -lt 3 ]] ; then
+	echo "less than 3 columns found, reformat and try again"
+	exit
+fi
+}
 
 if [[ $bulk_mode == "yes" ]] ; then
 x=1;
@@ -50,6 +56,7 @@ do
 	echo "File $x: $3";
 	inFile="$3"
 	fileName="$(ls "$3" | sed "s/ //g")"
+	_check_colNum
 	_fix_name
 	x=$((x + 1));
 	shift 1;
@@ -80,6 +87,7 @@ fi
 
 
 
+_check_colNum
 # run fix
 _fix_name
 

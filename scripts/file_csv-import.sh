@@ -35,7 +35,7 @@ cat vm-tempFile.csv
 }
 
 if [[ ! $flag_mode == "yes" ]] ; then
-	if [[ -z $inFile ]] ; then
+	if [[ -z $1 ]] ; then
 		echo "Provide a file to parse or use options -c and -i to enable flag mode"
 		exit
 	else
@@ -72,8 +72,9 @@ if [[ $flag_mode == "yes" ]] ; then
 	exit
 fi	
 
+read -p "Customer Context? " custContext
+cd $dir_ccdbn/$custContext
 _preview_parse
-
 read -p "Print to accounts.csv and vm_conf.add? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]] ; then
 	if [[ -f "./accounts.csv" ]] ; then
@@ -81,8 +82,9 @@ if [[ $REPLY =~ ^[Yy]$ ]] ; then
 		read -p "accounts.csv already exists, rename the old file to continue? " -n 1 -r
 		if [[ $REPLY =~ ^[Yy]$ ]] ; then
 			echo	
-			mv $dir_ccdbn/$custContext/accounts.csv $dir_ccdbn/$custContext/_accounts.csv
+			mv accounts.csv _accounts.csv
 			_csv_parse
+			rm tempFile.csv acc-tempFile.csv vm-tempFile.csv
 		else
 			echo "cancelling..."
 			rm tempFile.csv acc-tempFile.csv vm-tempFile.csv
@@ -91,10 +93,12 @@ if [[ $REPLY =~ ^[Yy]$ ]] ; then
 	else
 		echo
 		_csv_parse
+		rm acc-tempFile.csv vm-tempFile.csv
 	fi
 else
 	echo
 	echo "Cancelling..."
-	rm tempFile.csv
+	rm tempFile.csv acc-tempFile.csv vm-tempFile.csv
 fi
 
+echo "done"
