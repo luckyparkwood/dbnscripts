@@ -35,7 +35,7 @@ if [[ $safe_mode == "yes" ]] ; then
 	echo
 	echo "checking dbn_extensions.conf for $dbnNum..."
 	if grep -q " $dbnNum," /etc/asterisk/dbn_extensions.conf; then
-		echo "dbn Number $dbnNum found in dbn_extensions.conf"
+		echo "dbn Number $dbnNum FOUND in dbn_extensions.conf"
 	else
 		echo "dbn Number $dbnNum not found in dbn_extensions.conf"
 	fi

@@ -2,8 +2,9 @@
 . /etc/dbntool/scripts/functions.cfg
 
 flag_mode="yes"
+safe_mode="yes"
 
-while getopts c:i:d:svh flag
+while getopts c:i:d:Fsvh flag
 do
 	case "${flag}" in
 		v) echo "${flag} not yet implented"; exit;;
@@ -11,23 +12,27 @@ do
 		i) inFile=${OPTARG};;
 		d) dbnNum=${OPTARG};;
 		s) safe_mode="yes";;
-		h) echo "Usage: dbntool auto new-dbn -i [inputFile] -c [custContext] -d [dbnNumber] -s (Safe Mode)"; exit;;
+		F) enable_force="yes";;
+		h) echo "Usage: dbntool auto new-dbn -i [inputFile] -c [custContext] -d [dbnNumber] -F (Force, Disable Safe Mode)"; exit;;
 		?) echo "invalid flag, exiting" >&2; exit;;
 	esac
 done
 
 if [[ -z $custContext || -z $inFile || -z $dbnNum ]] ; then
-	echo "All variables -i -c -d  must be present to run in Auto mode. Use -s to run in Safe Mode to preview changes."
+	echo "All variables -i -c -d  must be present to run in Auto mode. Runs in Safe Mode by default or with -s to preview changes. Run with -F to force DBN creation."
 	exit
 fi
 
-
+if [[ $enable_force == "yes" ]] ; then
+	safe_mode="no"
+fi
 if [[ $safe_mode == "yes" ]] ; then
 	echo "
 	STARTING DRY RUN
 	"
 	cd "$(pwd $inFile)"
 	echo "================ input file..."
+	if [[ ! "$inFile"  == *?.csv ]] ; then echo "file not in .csv format. exiting." ; exit ; fi
 	cat "$inFile"
 	echo
 	echo "================ formatting inputFile..."
