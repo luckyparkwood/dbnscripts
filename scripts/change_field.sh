@@ -1,6 +1,13 @@
 #!/bin/bash
+. /etc/dbntool/scripts/functions.cfg
 
-read -p "Customer context?" custContext
+read -p "Customer context? " custContext
+_cust_dircheck "$custContext"
+if [[ $? -eq 1 ]] ; then
+	echo "Customer not found, exiting"
+	exit
+fi
+
 
 fileAccounts="/var/lib/asterisk/CCdbn/$custContext/accounts.csv"
 fileVoicemail="/etc/asterisk/dbn_voicemail.conf"
