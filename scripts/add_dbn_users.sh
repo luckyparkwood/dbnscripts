@@ -96,7 +96,7 @@ echo
 read -p "Confirm the additions to accounts.csv and dbn_voicemail.conf? " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-	_dbn_existingadd
+	_dbn_exist_add
 else
 	echo "cancelling..."
 	rm $dir_ccdbn/$custContext/temp.acc
