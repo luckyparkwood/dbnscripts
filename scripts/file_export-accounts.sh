@@ -7,6 +7,7 @@ else
 fi
 
 cp /var/lib/asterisk/CCdbn/$custContext/accounts.csv /home/chris.bright/htmlchris/"$custContext"-dbn.$(date +"%Y%m%d").csv
+chmod 644 /home/chris.bright/htmlchris/"$custContext"-dbn.$(date +"%Y%m%d").csv
 echo "$custContext/accounts.csv copied to htmlchris/ as "$custContext"-dbn.$(date +"%Y%m%d").csv"
 echo
 echo "$custContext Accounts available via http link below (CCVPN must be on):
