@@ -27,7 +27,7 @@ do
 	echo
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
 		echo "adding $userFirst,$userLast,$userDID to $custContext/accounts.csv"
-		sed -i "1 i\$x,$userFirst,$userLast,$userDID" /var/lib/asterisk/CCdbn/$custContext/accounts.csv
+		sed -i "1 i$x,$userFirst,$userLast,$userDID" /var/lib/asterisk/CCdbn/$custContext/accounts.csv
 		sed -i -e "/\[$custContext\]/,/^$/{s/^$/$userDID => 12345,$userFirst $userLast,,,\n&/" -e "}" /etc/asterisk/dbn_voicemail.conf
 		read -p "Add another user?" -n 1 -r
 		echo
