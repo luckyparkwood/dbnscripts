@@ -18,7 +18,7 @@ do
 	read -p "User DID? " userDID
 	echo "Add preview:
 	$custContext/accounts.csv:
-	$x,$userFirst,$userLast,$userDID
+	$x,$userFirst $userLast,$userDID
 	
 	dbn_voicemail.conf under [$custContext]:
 	$userDID => 12345,$userFirst $userLast,,,
@@ -26,8 +26,8 @@ do
 	read -p "Add to $custContext/accounts.csv and dbn_voicemail.conf? " -n 1 -r
 	echo
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		echo "adding $userFirst,$userLast,$userDID to $custContext/accounts.csv"
-		sed -i "1 i$x,$userFirst,$userLast,$userDID" /var/lib/asterisk/CCdbn/$custContext/accounts.csv
+		echo "adding $userFirst $userLast,$userDID to $custContext/accounts.csv"
+		sed -i "1 i$x,$userFirst $userLast,$userDID" /var/lib/asterisk/CCdbn/$custContext/accounts.csv
 		sed -i -e "/\[$custContext\]/,/^$/{s/^$/$userDID => 12345,$userFirst $userLast,,,\n&/" -e "}" /etc/asterisk/dbn_voicemail.conf
 		read -p "Add another user?" -n 1 -r
 		echo
