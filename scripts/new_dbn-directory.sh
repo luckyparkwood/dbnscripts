@@ -15,6 +15,11 @@ do
 	esac
 done
 
+_set_permissions(){
+	chown -Rc :asterisk /var/lib/asterisk/CCdbn/$custContext/
+	chmod -Rc 774 /var/lib/asterisk/CCdbn/$custContext/
+}
+
 if [[ $bulk_mode == "yes" ]] ; then
 i=1;
 j=$#;
@@ -27,6 +32,7 @@ do
 		echo "Customer Directory $custContext created."
 		echo "Creating recording PIN for $custContext"
 		/etc/dbntool/scripts/new_recording_pin.sh $custContext
+		_set_permissions
 
 	else
 		echo "Create directory failed."
@@ -49,7 +55,7 @@ if [[ $flag_mode == "yes" ]] ; then
 		else 
 			echo "Directory $custContext does not exist"
 		fi
-		if grep  "$custContext" $dir_ccdbn/recording_pins.csv ; then
+		if grep  "$custContext" "$dir_ccdbn"record_passwords.csv ; then
 			echo "Customer PIN for $custContext exists"
 			exit
 		else
@@ -67,6 +73,8 @@ if [[ $flag_mode == "yes" ]] ; then
 			/etc/dbntool/scripts/new_recording_pin.sh $custContext
 			mv $inFile /var/lib/asterisk/CCdbn/$custContext/
 			echo "$inFile moved to /var/lib/asterisk/CCdbn/$custContext/"
+			echo "setting directory and file permissions"
+			_set_permissions
 			echo "done"
 			exit
 		else

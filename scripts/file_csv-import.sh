@@ -19,6 +19,8 @@ awk -F ',' '{ print NR "," $1 " " $2 "," $3 }' tempFile.csv > $dir_ccdbn/$custCo
 awk -F ',' '{ print $3 " => 12345," $1 " " $2 ",,,"}' tempFile.csv > $dir_ccdbn/$custContext/vm_conf.add
 mv tempFile.csv $inFile
 echo "accounts.csv and vm_conf.add created."
+echo "setting owner and permissions for new files"
+_set_permissions
 echo "done"
 }	
 
@@ -34,6 +36,11 @@ awk -F ',' '{ print $3 " => 12345," $1 " " $2 ",,,"}' tempFile.csv > vm-tempFile
 cat vm-tempFile.csv
 }
 
+_set_permissions(){
+chown -Rc :asterisk /var/lib/asterisk/CCdbn/$custContext/
+chmod -Rc 774 /var/lib/asterisk/CCdbn/$custContext/
+}
+
 if [[ ! $flag_mode == "yes" ]] ; then
 	if [[ -z $1 ]] ; then
 		echo "Provide a file to parse or use options -c and -i to enable flag mode"
@@ -45,13 +52,13 @@ fi
 	
 cd "$(pwd $inFile)"
 
-echo "File type is: "
-file "$inFile"
 
 
 _validate_infile "$inFile"
 if [[ $? -eq 1 ]] ; then
-	echo "file format invalid, reformat and try again"
+	echo "File type is: "
+	file "$inFile"
+	echo "file format invalid, reformat and try again, should be ASCII"
 	exit 1
 fi
 

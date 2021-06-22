@@ -27,10 +27,14 @@ _fix_name () {
 	# remove any " ' " characters
 	sed -i "s/'//g" tempFile.csv
 	# rearrange columns if DID is in first or second column
-	awk -i inplace -F',' 'BEGIN{ OFS="," } { if ( $1 ~/[0-9]+/) print $2,$3,$1; else if ( $2 ~/[0-9]+/) print $1,$3,$2; else print $1,$2,$3 }' tempFile.csv
+	awk -i inplace -F',' 'BEGIN{ OFS="," } { if ( $1 ~/[0-9]{10}/) print $2,$3,$1; else if ( $2 ~/[0-9]{10}/) print $1,$3,$2; else print $1,$2,$3 }' tempFile.csv
 	
 if [[ $safe_mode == "yes" ]] ; then
-	rm $fileName
+	if [[ ! "$fileName" == "$inFile" ]] ; then
+		rm "$fileName"
+	fi
+	file tempFile.csv
+	echo
 	cat tempFile.csv
 	exit
 else
@@ -79,7 +83,9 @@ else
 	cd "$(pwd "$inFile")"
 	fileName="$(ls "$inFile" | sed "s/ //g")"
 	if [[ $safe_mode == "yes" ]] ; then
-		cp "$inFile" "$fileName"
+		if [[ ! "$inFile" == "$fileName" ]] ; then
+			cp "$inFile" "$fileName"
+		fi
 	else	
 		rename "s/ //g" "$inFile"
 	fi

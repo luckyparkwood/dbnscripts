@@ -33,6 +33,8 @@ if [[ $safe_mode == "yes" ]] ; then
 	cd "$(pwd $inFile)"
 	echo "================ input file..."
 	if [[ ! "$inFile"  == *?.csv ]] ; then echo "file not in .csv format. exiting." ; exit ; fi
+	file "$inFile"
+	echo
 	cat "$inFile"
 	echo
 	echo "================ formatting inputFile..."
@@ -53,6 +55,8 @@ if [[ $safe_mode == "yes" ]] ; then
 	echo
 	echo "
 	DRY RUN FINISHED
+	
+	add -F flag to run in full exec mode
 	"
 	rm tempFile.csv fix-tempFile.csv acc-tempFile.csv vm-tempFile.csv
 	exit
