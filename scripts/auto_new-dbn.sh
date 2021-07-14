@@ -80,7 +80,7 @@ inFile="$(echo "$inFile" | sed 's/ //g')"
 # create new directory and PIN for new DBN
 dbntool new dbn-directory -c "$custContext" -i "$inFile"
 _err_check
-cd "$dir_ccdbn""$custContext"
+cd "$dir_ccdbn"/"$custContext"
 
 # process inputFile to create accounts.csv and vm_conf.add
 dbntool file csv-import -c "$custContext" -i "$inFile"
