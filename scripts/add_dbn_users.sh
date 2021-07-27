@@ -90,6 +90,7 @@ echo
 
 #dbn_voicemail.conf
 #addition preview
+echo "New lines to be added to dbn_voicemail.conf:"
 cat $dir_ccdbn/$custContext/temp.vm
 echo
 
