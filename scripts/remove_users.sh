@@ -1,7 +1,7 @@
 #!/bin/bash
 . /etc/dbntool/scripts/functions.cfg
 
-inFile=$1
+inFile="$1"
 inFilePath="$(pwd $inFile)"
 accountPath=/var/lib/asterisk/CCdbn
 voicemailPath=/etc/asterisk
@@ -27,8 +27,10 @@ fi
 if [[ -z $1 ]] ; then
 	read -p "DID to remove? " removeDID
 	grep -v $removeDID < $accountPath/$custContext/accounts.csv > $accountPath/$custContext/accounts-temp.csv
+	chmod 664 $accountPath/$custContext/accounts-temp.csv
 	grep -v $removeDID < $voicemailPath/dbn_voicemail.conf > $voicemailPath/voicemail-temp.csv
-	
+	chmod 664 $voicemailPath/voicemail-temp.csv
+
 	echo "Before removal: "
 	echo "accounts.csv: "
 	grep $removeDID < $accountPath/$custContext/accounts.csv
@@ -41,20 +43,27 @@ if [[ -z $1 ]] ; then
 	echo "voicemail.conf: "
 	grep $removeDID < $voicemailPath/voicemail-temp.csv
 else
-	grep -vf $inFile.csv $accountPath/$custContext/accounts.csv > $accountPath/$custContext/accounts-temp.csv
-	grep -vf $infile.csv $voicemailPath/dbn_voicemail.conf > $voicemailPath/voicemail-temp.csv
+	echo "this code is broke, disabling. remove users one at a time"
+	exit
+	removeDID="$1"
+	echo $removeDID
+	echo $custContext
+	echo $accountPath
+	echo $voicemailPath
+	grep -v "$removeDID" $account/$custContext/accounts.csv > "$accountPath"/"$custContext"/accounts-temp.csv
+	grep -v "$removeDID" $voicemailPath/dbn_voicemail.conf > "$voicemailPath"/voicemail-temp.csv
 
 	echo "Before removal: "
 	echo "accounts.csv: "
-	grep -f $inFile $accountPath/$custContext/accounts.csv
+	grep $removeDID $accountPath/$custContext/accounts.csv
 	echo "voicemail.conf: "
-	grep -f $inFile $voicemailPath/dbn_voicemail.conf
+	grep $removeDID $voicemailPath/dbn_voicemail.conf
 	echo
 	echo "After removal: "
 	echo "accounts.csv: "
-	grep -f $inFile $accountPath/$custContext/accounts-temp.csv
+	grep $removeDID $accountPath/$custContext/accounts-temp.csv
 	echo "voicemail.conf: "
-	grep -f $inFile $voicemailPath/voicemail-temp.csv
+	grep $removeDID $voicemailPath/voicemail-temp.csv
 
 fi
 
