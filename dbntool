@@ -62,7 +62,8 @@ else
 				"push-2-prod") 	/etc/dbntool/scripts/prod_push-2-prod.sh ;;
 				"remote-reload") /etc/dbntool/scripts/prod_remote-update.sh ;;
 				"login") echo "Not yet configured" ;;
-				"show-reload-logs") /etc/dbntool/scripts/prod_show-reloadlogs.sh ;;				
+				"show-reload-logs") /etc/dbntool/scripts/prod_show-reloadlogs.sh ;;
+				"auto-push-reload") /etc/dbntool/scripts/prod_auto-push-reload.sh ;;				
 			esac ;;
 		
 		"show")

@@ -21,7 +21,7 @@ if [[ ! $flag_mode == yes ]] ; then
 fi
 
 if [[ $safe_mode == "yes" ]] ; then
-	_cust_contextcheck "$custContext" "/etc/asterisk/dbn_voicemail.conf"
+	_cust_contextcheck "[$custContext]" "/etc/asterisk/dbn_voicemail.conf"
 	echo "context to be added"
 	echo -e '['$custContext']' 
 	cat ./vm-tempFile.csv
@@ -37,7 +37,7 @@ if [[ $? == 1 ]] ; then
 fi
 
 echo "checking for existing context $custContext in dbn_voicemail.conf"
-_cust_contextcheck "$custContext" "/etc/asterisk/dbn_voicemail.conf"
+_cust_contextcheck "[$custContext]" "/etc/asterisk/dbn_voicemail.conf"
 if [[ $? -eq 0 ]] ; then
 	echo "Use dbn add script to add to existing cust"
 	exit
