@@ -27,9 +27,9 @@ fi
 if [[ -z $1 ]] ; then
 	read -p "DID to remove? " removeDID
 	grep -v $removeDID < $accountPath/$custContext/accounts.csv > $accountPath/$custContext/accounts-temp.csv
-	chmod 664 $accountPath/$custContext/accounts-temp.csv
+	chmod 774 $accountPath/$custContext/accounts-temp.csv
 	grep -v $removeDID < $voicemailPath/dbn_voicemail.conf > $voicemailPath/voicemail-temp.csv
-	chmod 664 $voicemailPath/voicemail-temp.csv
+	chmod 774 $voicemailPath/voicemail-temp.csv
 
 	echo "Before removal: "
 	echo "accounts.csv: "

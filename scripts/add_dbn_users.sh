@@ -31,8 +31,8 @@ _dbn_exist_add () {
 #accounts.csv
 cat $dir_ccdbn/$custContext/accounts.csv >> $dir_ccdbn/$custContext/temp.acc
 mv $dir_ccdbn/$custContext/temp.acc $dir_ccdbn/$custContext/accounts.csv
-chown asterisk:asterisk $dir_ccdbn/$custContext/accounts.csv
-chmod 664 $dir_ccdbn/$custContext/accounts.csv
+#chown asterisk:asterisk $dir_ccdbn/$custContext/accounts.csv
+chmod 774 $dir_ccdbn/$custContext/accounts.csv
 
 #dbn_voicemail.conf
 while IFS=, read -r first last userdid
@@ -40,8 +40,8 @@ do
 sed -i -e "/\[$custContext\]/,/^$/{s/^$/$userdid => 12345,$first $last,,,\n&/" -e "}" $file_dbnvmconf
 done < $inFile
 echo "new users added."
-chown asterisk:asterisk $file_dbnvmconf
-chmod 664 $file_dbnvmconf
+#chown asterisk:asterisk $file_dbnvmconf
+chmod 774 $file_dbnvmconf
 rm $dir_ccdbn/$custContext/temp.vm
 }
 
