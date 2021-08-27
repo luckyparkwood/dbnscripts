@@ -24,7 +24,7 @@ _dbntool_complete()
 			"production") 
 				COMPREPLY=( $(compgen -W "push-2-prod remote-reload server-login show-reload-logs auto-push-reload" -- $cur) ) ;;
 			"remove") 
-				COMPREPLY=( $(compgen -W "user bulk-remove recording vmcontext" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "users recording vmcontext" -- $cur) ) ;;
 			"show") 
 				COMPREPLY=( $(compgen -W "customer-info recording-pin name-recordings logs get-printout" -- $cur) ) ;;
 			"file") 

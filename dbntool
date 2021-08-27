@@ -52,8 +52,7 @@ else
 
 		"remove")
 			case $2 in
-				"user") /etc/dbntool/scripts/remove_users.sh $3 ;;
-				"bulk-remove") echo "Not yet configured" ;;
+				"users") /etc/dbntool/scripts/remove_users.sh "${@:3}"  ;;
 				"vmcontext") /etc/dbntool/scripts/remove_vmcontext.sh ;;
 			esac ;;
 	
