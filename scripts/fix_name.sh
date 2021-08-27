@@ -76,8 +76,9 @@ if [[ ! $flag_mode == "yes" ]] ; then
 	read -p "Backup source file $1? Y/N " -n 1 -r
        	if [[ $REPLY =~ ^[Yy]$ ]] ; then
 		echo
-		cp "$1" "$fileName"
-		
+		cp "$inFile" "$fileName"
+	else
+		rename "s/ //g" "$inFile"	
 	fi
 else
 	cd "$(pwd "$inFile")"
