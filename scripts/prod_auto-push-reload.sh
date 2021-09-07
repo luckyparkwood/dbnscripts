@@ -25,6 +25,8 @@ tar cvf cloudcall_voicemail_full.tar --exclude='/var/spool/asterisk/voicemail/de
 #scp cloudcall_voicemail_full.tar chrisbright@172.20.40.61:cloudcall_voicemail_staging.tar
 chmod 664 cloudcall_voicemail_full.tar
 
+
+pwd
 echo "sending dbn tar to db01..."
 sshpass -p $DBNPASS scp cloudcall_voicemail_full.tar dbnadmin@172.20.40.60:cloudcall_voicemail_staging.tar
 echo "reloading asterisk dialplan on db01..."
