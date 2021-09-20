@@ -132,20 +132,20 @@ _set_custContext
 _check_custdir
 
 read -p "DID to remove? " removeDID
-grep -v $removeDID < $accountPath/$custContext/accounts.csv > $accountPath/$custContext/accounts-temp.csv
-chmod 774 $accountPath/$custContext/accounts-temp.csv
+grep -v $removeDID < $dir_ccdbn/$custContext/accounts.csv > $dir_ccdbn/$custContext/accounts-temp.csv
+chmod 774 $dir_ccdbn/$custContext/accounts-temp.csv
 grep -v $removeDID < $voicemailPath/dbn_voicemail.conf > $voicemailPath/voicemail-temp.csv
 chmod 774 $voicemailPath/voicemail-temp.csv
 
 echo "Before removal: "
 echo "accounts.csv: "
-grep $removeDID < $accountPath/$custContext/accounts.csv
+grep $removeDID < $dir_ccdbn/$custContext/accounts.csv
 echo "voicemail.conf: "
 grep $removeDID < $voicemailPath/dbn_voicemail.conf
 echo
 echo "After removal: "
 echo "accounts.csv: "
-grep $removeDID < $accountPath/$custContext/accounts-temp.csv
+grep $removeDID < $dir_ccdbn/$custContext/accounts-temp.csv
 echo "voicemail.conf: "
 grep $removeDID < $voicemailPath/voicemail-temp.csv
 
@@ -155,15 +155,15 @@ read -p "Confirm remove user/s? This cannot be undone! Y/N " -n 1 -r
 		echo
 		echo "Logging removals..."	
 		echo "[$custContext] on $(date +"%Y%m%d") " >> $logFile
-		diff $accountPath/$custContext/accounts-temp.csv $accountPath/$custContext/accounts.csv >> $logFile
+		diff $dir_ccdbn/$custContext/accounts-temp.csv $dir_ccdbn/$custContext/accounts.csv >> $logFile
 		diff $voicemailPath/voicemail-temp.csv $voicemailPath/dbn_voicemail.conf >> $logFile
-		mv $accountPath/$custContext/accounts-temp.csv $accountPath/$custContext/accounts.csv
+		mv $dir_ccdbn/$custContext/accounts-temp.csv $dir_ccdbn/$custContext/accounts.csv
 		mv $voicemailPath/voicemail-temp.csv $voicemailPath/dbn_voicemail.conf
 		echo "Accounts removed."
 
 	else
 		echo
-		rm $accountPath/$custContext/accounts-temp.csv
+		rm $dir_ccdbn/$custContext/accounts-temp.csv
 		rm $voicemailPath/voicemail-temp.csv
 		echo "Cancelling..."
 	fi
