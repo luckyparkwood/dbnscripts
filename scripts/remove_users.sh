@@ -16,7 +16,6 @@ done
 
 
 voicemailPath=/etc/asterisk
-logFile=/etc/dbntool/changelog/removed_users.log
 inFilePath="$(pwd $inFile)"
 
 _check_infile () {
@@ -69,6 +68,14 @@ elif [[ ! -z $(grep -of "$dir_ccdbn"/"$custContext"/remove_temp.csv $file_dbnvmc
 fi
 }
 
+_cleanup_files () {
+rm remove_pre.acc 2> /dev/null
+rm remove_pre.vm 2> /dev/null
+rm remove_temp.csv 2> /dev/null
+rm accounts-temp.csv 2> /dev/null
+rm voicemail-temp.csv 2> /dev/null
+}
+
 #auto mode
 if [[ $flag_mode == "yes" ]] ; then
 	if [[ -z "$custContext" || -z "$inFile" ]] ; then
@@ -100,29 +107,15 @@ if [[ $flag_mode == "yes" ]] ; then
 		cp accounts.csv _accounts.csv
 		mv remove_final.acc accounts.csv
 
-		#early exit to not put a ton of entries in the logs
-		exit
-
-		echo "logging removals..."
-		pwd	
-		echo "
-		$(date)" >> /etc/dbntool/changelog/removed_users.log
-		whoami >> /etc/dbntool/changelog/removed_users.log
-		echo "removing from accounts.csv:" >> /etc/dbntool/changelog/removed_users.log
-		cat remove_pre.acc >> /etc/dbntool/changelog/removed_users.log
-		echo "
-		removing from dbn_voicemail.conf:" >> /etc/dbntool/changelog/removed_users.log
-		cat remove_pre.vm >> /etc/dbntool/changelog/removed_users.log
-
 		echo "cleaning up"
-		rm remove_*
+		_cleanup_files
 		echo "done"
 		exit
 	fi
 else
 
 
-#wizard entry
+#wizard entry, one by one
 if [[ ! -z $1 ]] ; then
 	echo "don't pass any variables to use removal wizard, or use flag mode to pass -c and -i"
 	exit
@@ -163,8 +156,7 @@ read -p "Confirm remove user/s? This cannot be undone! Y/N " -n 1 -r
 
 	else
 		echo
-		rm $dir_ccdbn/$custContext/accounts-temp.csv
-		rm $voicemailPath/voicemail-temp.csv
+		_cleanup_files
 		echo "Cancelling..."
 	fi
 fi 

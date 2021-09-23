@@ -5,7 +5,7 @@ date="$(date)"
 read -p "Comment for push?  " pushComment
 echo "
 Initiated by $USER on $date
-Comment: $pushComment" >> /etc/dbntool/changelog/push_2_prod.log
+Comment: $pushComment" >> /var/log/dbntool/push_2_prod.log
 
 set -e
 

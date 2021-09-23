@@ -1,4 +1,5 @@
 #!/bin/bash
+##### DEAD CODE, BUT KEEPING FOR A WHILE JUST IN CASE
 . /etc/dbntool/scripts/functions.cfg
 
 inFile="$1"

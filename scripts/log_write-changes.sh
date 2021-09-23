@@ -1,4 +1,5 @@
 #!/bin/bash
+#### DEAD SCRIPT, NO LONGER USED. VERSION CONTROL AND LOGGING DONE BY GIT
 
 logFilepath=/etc/dbntool/changelog/changelog.log
 
