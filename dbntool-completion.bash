@@ -14,7 +14,7 @@ _dbntool_complete()
 	elif [ $COMP_CWORD -eq 2 ]; then
 		case "$prev" in
 			"add") 
-				COMPREPLY=( $(compgen -W "user" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "users" -- $cur) ) ;;
 			"change") 
 				COMPREPLY=( $(compgen -W "bulk-change-field move-recordings field" -- $cur) ) ;;
 			"log") 
@@ -71,6 +71,9 @@ _dbntool_complete()
 					COMPREPLY=( $(compgen -W "all" -- $cur) ) ;;
 				"logs")
 					COMPREPLY=( $(compgen -W "all date list" -- $cur) ) ;;
+
+				"customer-info")
+					COMPREPLY=( $(compgen -W "all" -- $cur) ) ;;
 			esac
 		fi
 	

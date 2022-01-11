@@ -35,7 +35,7 @@ do
 		_set_permissions
 
 	else
-		echo "Create directory failed."
+		echo "ERROR - Create directory failed."
 	fi
 	i=$((i + 1));
 	shift 1;
@@ -51,15 +51,15 @@ if [[ $flag_mode == "yes" ]] ; then
 		exit 0
 	elif [[ $safe_mode == "yes" ]] ; then
 		if [[ -d $dir_CCdbn/$custContext ]] ; then
-			echo "Directory $custContext exists"
+			echo "WARNING - Directory $custContext exists"
 		else 
-			echo "Directory $custContext does not exist"
+			echo "INFO - Directory $custContext does not exist"
 		fi
 		if grep  "$custContext" "$dir_ccdbn"record_passwords.csv ; then
-			echo "Customer PIN for $custContext exists"
+			echo "WARNING - Customer PIN for $custContext exists"
 			exit
 		else
-			echo "Customer PIN for $custContext does not exist"
+			echo "INFO - Customer PIN for $custContext does not exist"
 			exit
 		fi	
 
@@ -78,7 +78,7 @@ if [[ $flag_mode == "yes" ]] ; then
 			echo "done"
 			exit
 		else
-			echo "Create directory and PIN failed."
+			echo "ERROR - Create directory and PIN failed."
 			exit 1
 		fi
 	fi	

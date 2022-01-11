@@ -28,7 +28,7 @@ else
 
 		"add")
 			case $2 in
-				"user")	if [[ -z $3 ]] ; then
+				"users") if [[ -z $3 ]] ; then
 						echo 
 						read -p "no input file, add single user?" -n 1 -r
 						echo

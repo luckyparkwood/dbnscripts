@@ -41,7 +41,7 @@ sed -i -e "/\[$custContext\]/,/^$/{s/^$/$userdid => 12345,$first $last,,,\n&/" -
 done < $inFile
 echo "new users added."
 #chown asterisk:asterisk $file_dbnvmconf
-chmod 774 $file_dbnvmconf
+#chmod 774 $file_dbnvmconf
 rm $dir_ccdbn/$custContext/temp.vm
 }
 

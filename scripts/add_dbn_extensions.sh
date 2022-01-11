@@ -35,9 +35,9 @@ if [[ $safe_mode == "yes" ]] ; then
 	echo
 	echo "checking dbn_extensions.conf for $dbnNum..."
 	if grep -q " $dbnNum," /etc/asterisk/dbn_extensions.conf; then
-		echo "dbn Number $dbnNum FOUND in dbn_extensions.conf"
+		echo "WARNING - dbn Number $dbnNum FOUND in dbn_extensions.conf"
 	else
-		echo "dbn Number $dbnNum not found in dbn_extensions.conf"
+		echo "INFO - dbn Number $dbnNum not found in dbn_extensions.conf"
 	fi
 	exit
 fi
@@ -45,7 +45,7 @@ fi
 echo "checking for customer directory /var/lib/asterisk/CCdbn/$custContext/"
 _cust_dircheck "$custContext"
 if [[ $? == 1 ]] ; then
-	echo "Directory $custContext not found. Check context name, or customer not likely setup"
+	echo "ERROR - Directory $custContext not found. Check context name, or customer not likely setup"
 	echo "exiting"
 	exit
 fi
@@ -53,12 +53,12 @@ fi
 echo "checking dbn_extensions.conf for $custContext"
 _cust_contextcheck "$custContext" "/etc/asterisk/dbn_extensions.conf"
 if [[ $? == 0 ]] ; then
-	echo "Customer $custContext exists, exiting..."
+	echo "ERROR - Customer $custContext exists, exiting..."
 	exit
 fi
 
 if grep -q " $dbnNum," /etc/asterisk/dbn_extensions.conf; then
-	echo "dbn number $dbnNum exists, exiting"
+	echo "ERROR - dbn number $dbnNum exists, exiting"
 	exit
 fi
 

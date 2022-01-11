@@ -2,6 +2,10 @@
 
 if [[ -z $1 ]] ; then
 	read -p " Customer context? " custContext
+
+elif [[ $1 == "all" ]] ; then
+	ls -d /var/lib/asterisk/CCdbn/*/ | sed 's/\/var\/lib\/asterisk\/CCdbn\///g'
+	exit	
 else
 	custContext=$1
 fi

@@ -31,7 +31,7 @@ fi
 echo "checking for /var/lib/asterisk/CCdbn/$custContext/vm_conf.add"
 _file_check "/var/lib/asterisk/CCdbn/$custContext/vm_conf.add"
 if [[ $? == 1 ]] ; then
-	echo "file /var/lib/asterisk/CCdbn/$custContext/vm_conf.add not found..."
+	echo "ERROR - file /var/lib/asterisk/CCdbn/$custContext/vm_conf.add not found..."
 	echo "exiting"
 	exit
 fi

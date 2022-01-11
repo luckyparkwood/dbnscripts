@@ -58,12 +58,15 @@ _validate_infile "$inFile"
 if [[ $? -eq 1 ]] ; then
 	echo "File type is: "
 	file "$inFile"
-	echo "file format invalid, reformat and try again, should be ASCII"
+	echo "ERROR - file format invalid, reformat and try again, should be ASCII"
 	exit 1
 fi
 
 cp $inFile ./tempFile.csv
 if [[ $flag_mode == "yes" ]] ; then
+	if [[ -f "./accounts.csv" ]] ; then
+		echo "WARNING - accounts.csv already exists for this customer. continuing in flag mode wil overwrite the current accounts.csv file."
+	fi
 	if [[ $safe_mode == "yes" ]] ; then
 		_preview_parse
 		exit	
