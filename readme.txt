@@ -100,11 +100,13 @@ user (CR,[INFILE, -c [CUSTCONTEXT] -i [INFILE])
 		Non-interactive flag mode. 
 		Pass -c for Custmer context and -i for input file.
 		Same file requirements as above.
-recording-pin (CR,[CUSTCONTEXT])
+recording-pin (CR,[CUSTCONTEXT], -c [CUSTOMERCONTEXT])
 	CR
 		Invoke without any variable to begin guided PIN addition
 	[CUSTCONTEXT]
 		Pass the customer context as a variable to automatically add customer pin (no confirmation)
+	-c [CUSTOMERCONTEXT]
+		Pass with flag -c to use flag mode (non-interactive)
 dbn-directory (CR, -c [CUSTCONTEXT] -i [INFILE], -b [CUSTCONTEXT1 CUSTCONTEXT2 ...])
 	CR
 		Invoke without any variables or flags to start guided DBN customer directory creation

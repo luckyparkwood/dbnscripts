@@ -1,11 +1,22 @@
 #!/bin/bash
 . /etc/dbntool/scripts/functions.cfg
 
-if [[ -z $1 ]] ; then
-#	read -p "Customer context to add? " custContext
-	_set_custContext
-else
-	custContext=$1
+while getopts c:h flag
+do
+	case "${flag}" in
+		c) custContext=${OPTARG}; flag_mode="yes";;
+		h) echo "Usage: dbntool add recording-pin -c [custContext]"; exit;;
+		?) echo "invalid flag, exiting" >&2; exit;;
+	esac
+done
+
+if [[ ! $flag_mode == "yes" ]] ; then
+	if [[ -z $1 ]] ; then
+#		read -p "Customer context to add? " custContext
+		_set_custContext
+	else
+		custContext=$1
+	fi
 fi
 
 if grep -q "$custContext" /var/lib/asterisk/CCdbn/record_passwords.csv; then
