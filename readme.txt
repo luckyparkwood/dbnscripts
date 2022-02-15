@@ -85,10 +85,21 @@ show-diff (DISABLED)
 	Show diff between current files and backups (disabled, use git for version control)
 
 
-
-### NEW
-$dbntool new (recording-pin,dbn-directory)
-
+### ADD
+$dbntool add (user,recording-pin,dbn-directory) 
+user (CR,[INFILE, -c [CUSTCONTEXT] -i [INFILE])
+	CR
+		Invoke without any variables to start the Add User Wizard
+	[INFILE]
+		Pass csv file into script to bulk import users
+		File requirements: 
+			Type is ASCII without any invisible or special characters
+			3 columns in (FIRST,LAST,DID) format
+			No header row
+	-c [CUSTCONTEXT] -i [INFILE]
+		Non-interactive flag mode. 
+		Pass -c for Custmer context and -i for input file.
+		Same file requirements as above.
 recording-pin (CR,[CUSTCONTEXT])
 	CR
 		Invoke without any variable to begin guided PIN addition
@@ -105,26 +116,6 @@ dbn-directory (CR, -c [CUSTCONTEXT] -i [INFILE], -b [CUSTCONTEXT1 CUSTCONTEXT2 .
 	-b [CUSTCONTEXT1 CUSTCONTEXT2 ...]
 		Bulk mode addition of directories and recording PINs
 		Invoke with flag -b followed by each customer context to be added, separated with a space
-		
-	
-
-### ADD
-$dbntool add user (CR,[INFILE, -c [CUSTCONTEXT] -i [INFILE])
-
-user
-	CR
-		Invoke without any variables to start the Add User Wizard
-	[INFILE]
-		Pass csv file into script to bulk import users
-		File requirements: 
-			Type is ASCII without any invisible or special characters
-			3 columns in (FIRST,LAST,DID) format
-			No header row
-	-c [CUSTCONTEXT] -i [INFILE]
-		Non-interactive flag mode. 
-		Pass -c for Custmer context and -i for input file.
-		Same file requirements as above.
-
 
 
 ### CHANGE

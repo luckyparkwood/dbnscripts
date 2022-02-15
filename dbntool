@@ -19,13 +19,11 @@ else
 				"show-diff") echo "disabled, use git for version control" ;;
 			esac ;;
 
-		"new")
-			case $2 in
-				"recording-pin") /etc/dbntool/scripts/new_recording_pin.sh "${@:3}" ;;
-				"dbn-directory") /etc/dbntool/scripts/new_dbn-directory.sh "${@:3}" ;;
-
-			esac ;;
-
+#		"new")
+#			case $2 in
+#				"recording-pin") /etc/dbntool/scripts/new_recording_pin.sh "${@:3}" ;;
+#				"dbn-directory") /etc/dbntool/scripts/new_dbn-directory.sh "${@:3}" ;;
+#			esac ;;
 		"add")
 			case $2 in
 				"users") if [[ -z $3 ]] ; then
@@ -41,6 +39,9 @@ else
 					else
 						/etc/dbntool/scripts/add_dbn_users.sh "${@:3}"
 					fi ;;
+			
+				"recording-pin") /etc/dbntool/scripts/new_recording_pin.sh "${@:3}" ;;
+				"dbn-directory") /etc/dbntool/scripts/new_dbn-directory.sh "${@:3}" ;;
 			esac ;;
 
 		"change")

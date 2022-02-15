@@ -10,17 +10,17 @@ _dbntool_complete()
 	prev2=${COMP_WORDS[COMP_CWORD-2]}
 
 	if [ $COMP_CWORD -eq 1 ]; then
-		COMPREPLY=( $(compgen -W "add change log new production remove show help update file git auto" -- $cur) )
+		COMPREPLY=( $(compgen -W "add change log production remove show help update file git auto" -- $cur) )
 	elif [ $COMP_CWORD -eq 2 ]; then
 		case "$prev" in
 			"add") 
-				COMPREPLY=( $(compgen -W "users" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "users recording-pin dbn-directory" -- $cur) ) ;;
 			"change") 
 				COMPREPLY=( $(compgen -W "bulk-change-field move-recordings field" -- $cur) ) ;;
 			"log") 
 				COMPREPLY=( $(compgen -W "backup write-changes clean-up show-diff" -- $cur) ) ;;
-			"new") 
-				COMPREPLY=( $(compgen -W "recording-pin dbn-directory" -- $cur) ) ;;
+#			"new") 
+#				COMPREPLY=( $(compgen -W "recording-pin dbn-directory" -- $cur) ) ;;
 			"production") 
 				COMPREPLY=( $(compgen -W "push-2-prod remote-reload server-login show-reload-logs auto-push-reload" -- $cur) ) ;;
 			"remove") 
@@ -47,12 +47,11 @@ _dbntool_complete()
 				"recording-move")
 					COMPREPLY=() ;;
 			esac
-		elif [ $prev2 == "new" ] ; then
-			case "$prev" in
-				"csv-import")
-					COMPREPLY=() ;;
-
-			esac
+#		elif [ $prev2 == "new" ] ; then
+#			case "$prev" in
+#				"csv-import")
+#					COMPREPLY=() ;;
+#			esac
 		elif [ $prev2 == "production" ] ; then
 			case "$prev" in
 				"login")
