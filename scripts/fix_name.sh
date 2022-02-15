@@ -17,7 +17,7 @@ _fix_name () {
 	# remove garbage CLRF and BOM characters
 	tr -d '\r' < $fileName | tr -cd '\11\12\15\40-\176' > tempFile.csv
 	# remove header
-	sed -r -i '1{/(Phone|First|Last|Number)/d;}' tempFile.csv
+	sed -r -i '1{/(Phone|First|Last|Number|first|last|DID|did)/d;}' tempFile.csv
 	# remove double, leading, and trailing spaces
 	sed -r -i 's/(^| |$){2,}//g' tempFile.csv
        	# handle double, leading, and trailing delimiters

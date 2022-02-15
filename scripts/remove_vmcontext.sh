@@ -4,7 +4,7 @@ if [[ -z $1 ]] ; then
 	read -p " What is the customer Context? " custContext
 	else
 		custContext=$1
-	fi
+fi
 
 sed -n "/\[$custContext\]/,/^$/p" /etc/asterisk/dbn_voicemail.conf	
 read -p "Confirm remove context?" -n 1 -r

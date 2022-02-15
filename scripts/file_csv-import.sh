@@ -37,8 +37,8 @@ cat vm-tempFile.csv
 }
 
 _set_permissions(){
-chown -Rc :asterisk /var/lib/asterisk/CCdbn/$custContext/
-chmod -Rc 774 /var/lib/asterisk/CCdbn/$custContext/
+#chown -Rc :asterisk /var/lib/asterisk/CCdbn/$custContext/
+chmod -Rc 775 /var/lib/asterisk/CCdbn/$custContext/
 }
 
 if [[ ! $flag_mode == "yes" ]] ; then

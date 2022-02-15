@@ -54,7 +54,7 @@ else
 		"remove")
 			case $2 in
 				"users") /etc/dbntool/scripts/remove_users.sh "${@:3}"  ;;
-				"vmcontext") /etc/dbntool/scripts/remove_vmcontext.sh ;;
+				"vmcontext") /etc/dbntool/scripts/remove_vmcontext.sh $3 ;;
 			esac ;;
 	
 		"production")

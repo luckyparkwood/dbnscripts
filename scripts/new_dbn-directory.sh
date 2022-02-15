@@ -16,8 +16,8 @@ do
 done
 
 _set_permissions(){
-	chown -Rc :asterisk /var/lib/asterisk/CCdbn/$custContext/
-	chmod -Rc 774 /var/lib/asterisk/CCdbn/$custContext/
+#	chown -Rc :asterisk /var/lib/asterisk/CCdbn/$custContext/
+	chmod -Rc 775 /var/lib/asterisk/CCdbn/$custContext/
 }
 
 if [[ $bulk_mode == "yes" ]] ; then
@@ -91,6 +91,7 @@ else
 
 	if mkdir /var/lib/asterisk/CCdbn/$custContext ; then
 		echo "Customer Directory $custContext created."
+		_set_permissions
 		cd /var/lib/asterisk/CCdbn/$custContext
 		echo "moved to /var/lib/asterisk/CCdbn/$custContext"
 		read -p "create new VM PIN? " -n 1 -r
