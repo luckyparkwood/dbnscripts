@@ -2,13 +2,14 @@
 . /etc/dbntool/scripts/functions.cfg
 
 
-while getopts c:i:svh flag
+while getopts c:i:svhiF flag
 do
 	case "${flag}" in
 		v) echo "passing flag ${flag}";;
 		c) custContext=${OPTARG}; flag_mode="yes";;
 		i) inFile=${OPTARG}; flag_mode="yes";;
 		s) safe_mode="yes";;
+		F) force_mode="yes";;
 		h) echo "Usage: dbntool file remove_user -c [custContext] -i [inputFile] (-s (safe mode))"; exit;;
 		?) echo "invalid flag, exiting" >&2; exit;;
 	esac
@@ -94,8 +95,13 @@ if [[ $flag_mode == "yes" ]] ; then
 		_check_custdir
 		_detect_dupes
 		if [[ $? -eq 1 ]] ; then
-			echo "cancelling... duplicate numbers detected, correct and try again"
-			exit
+			echo "duplicate numbers detected"
+			if [[ $force_mode == "yes" ]] ; then
+				echo "force mode on, forcing removal"
+			else
+				echo "cancelling, resolve duplicates and try again"
+				exit
+			fi
 		fi
 		
 		cd $voicemailPath
@@ -146,10 +152,10 @@ grep $removeDID < $voicemailPath/voicemail-temp.csv
 read -p "Confirm remove user/s? This cannot be undone! Y/N " -n 1 -r
 	if [[ $REPLY =~ ^[Yy]$ ]] ; then
 		echo
-		echo "Logging removals..."	
-		echo "[$custContext] on $(date +"%Y%m%d") " >> $logFile
-		diff $dir_ccdbn/$custContext/accounts-temp.csv $dir_ccdbn/$custContext/accounts.csv >> $logFile
-		diff $voicemailPath/voicemail-temp.csv $voicemailPath/dbn_voicemail.conf >> $logFile
+#		echo "Logging removals..."	
+#		echo "[$custContext] on $(date +"%Y%m%d") " >> $logFile
+#		diff $dir_ccdbn/$custContext/accounts-temp.csv $dir_ccdbn/$custContext/accounts.csv >> $logFile
+#		diff $voicemailPath/voicemail-temp.csv $voicemailPath/dbn_voicemail.conf >> $logFile
 		mv $dir_ccdbn/$custContext/accounts-temp.csv $dir_ccdbn/$custContext/accounts.csv
 		mv $voicemailPath/voicemail-temp.csv $voicemailPath/dbn_voicemail.conf
 		echo "Accounts removed."
