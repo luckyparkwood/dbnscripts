@@ -144,7 +144,7 @@ field
 ### REMOVE
 $dbntool remove (users,vmcontext)
 	
-users (CR, -c [CUSTCONTEXT] -i [INFILE])
+users (CR, -c [CUSTCONTEXT] -i [INFILE] (-F Force))
 	CR
 		Invoke without any variables to start remove user wizard.
 	-c [CUSTCONTEXT] -i [INFILE]
@@ -154,6 +154,8 @@ users (CR, -c [CUSTCONTEXT] -i [INFILE])
 			Type is ASCII without any invisible or special characters
 			3 columns in (FIRST,LAST,DID) format
 			No header row
+	-F Force
+		Force removal even if duplicates are detected (CHECK AFTER OPERATION TO ENSURE INTENDED REMOVALS)
 vmcontext
 	Confirms customer context and removes from dbn_voicemail.conf only.
 	Useful for rebuilding customer DBNs after significant changes (remove existing, add as new)
