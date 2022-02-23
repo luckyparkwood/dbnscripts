@@ -14,25 +14,27 @@ _dbntool_complete()
 	elif [ $COMP_CWORD -eq 2 ]; then
 		case "$prev" in
 			"add") 
-				COMPREPLY=( $(compgen -W "users recording-pin dbn-directory" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "users recording-pin dbn-directory help" -- $cur) ) ;;
 			"change") 
-				COMPREPLY=( $(compgen -W "bulk-change-field move-recordings field" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "bulk-change-field move-recordings field help" -- $cur) ) ;;
 			"log") 
-				COMPREPLY=( $(compgen -W "backup write-changes clean-up show-diff" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "backup write-changes clean-up show-diff help" -- $cur) ) ;;
 #			"new") 
 #				COMPREPLY=( $(compgen -W "recording-pin dbn-directory" -- $cur) ) ;;
 			"production") 
-				COMPREPLY=( $(compgen -W "push-2-prod remote-reload server-login show-reload-logs auto-push-reload" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "push-2-prod remote-reload server-login show-reload-logs auto-push-reload help" -- $cur) ) ;;
 			"remove") 
-				COMPREPLY=( $(compgen -W "users recording vmcontext" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "users recording vmcontext help" -- $cur) ) ;;
 			"show") 
-				COMPREPLY=( $(compgen -W "customer-info recording-pin name-recordings logs get-printout" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "customer-info recording-pin name-recordings logs get-printout help" -- $cur) ) ;;
 			"file") 
-				COMPREPLY=( $(compgen -W "column-order fix-name accounts.csv vm_conf.add push_dbn_extensions.conf push_dbn_voicemail.conf csv-import export-accounts reorder-accounts" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "column-order fix-name accounts.csv vm_conf.add push_dbn_extensions.conf push_dbn_voicemail.conf csv-import export-accounts reorder-accounts help" -- $cur) ) ;;
 			"git") 
-				COMPREPLY=( $(compgen -W "add show-trackedfiles" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "add show-trackedfiles help" -- $cur) ) ;;
 			"auto") 
-				COMPREPLY=( $(compgen -W "new-dbn" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "new-dbn help" -- $cur) ) ;;
+			"help")
+				COMPREPLY=( $(compgen -W "process about" -- $cur) ) ;;
 		esac
 	elif [ $COMP_CWORD -eq 3 ]; then
 		if [ $prev2 == "add" ] ; then

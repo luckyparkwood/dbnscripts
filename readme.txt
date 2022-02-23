@@ -1,7 +1,7 @@
 UPDATED 1/24/22
 
 
-DBN Training
+### DBN_TRAINING
 
 Customer Configuration has 6 parts
 1. DID set up in P1 under the Synety YYY Sales Demo account
@@ -32,10 +32,9 @@ Customer Configuration has 6 parts
 	- each file is stored as greet.wave in a unique directory named after each individual user DID
 	- dictated by asterisk vm function
 	- file/dir location: /var/spool/asterisk/voicemail/[CUSTCONTEXT]/[USERDID]/greet.wav
-	
+###
 
-
-DBNtool
+### DBNTOOL
 
 Description
 
@@ -56,6 +55,7 @@ File locations
 - temp files: /tmp/dbntool/ (future update)
 - bash completion: /usr/share/bash-completion/completions/
 - logs: /var/log/dbntool/
+- exports: /home/chris/htmlchris > /var/www/html/chris
 
 Usage:
 
@@ -63,13 +63,14 @@ Invoke the tool:
 $dbntool
 
 If no arguments are passed, it will display the help page.
+###
 
 ### UPDATE
 $dbntool update
 
 Updates the binary in /usr/bin/ to match the local copy in the dbntool main directory
 (Sometimes needs to be run twice for some reason)
-
+###
 
 ### LOG (depreciated, use git for version control)
 $dbntool log (backup,write-changes,cleanup,show-diff)
@@ -83,7 +84,7 @@ clean-up [NUM]
 	Remove backups older than [ NUM ] of days. (Default 90)
 show-diff (DISABLED)
 	Show diff between current files and backups (disabled, use git for version control)
-
+###
 
 ### ADD
 $dbntool add (user,recording-pin,dbn-directory) 
@@ -118,7 +119,7 @@ dbn-directory (CR, -c [CUSTCONTEXT] -i [INFILE], -b [CUSTCONTEXT1 CUSTCONTEXT2 .
 	-b [CUSTCONTEXT1 CUSTCONTEXT2 ...]
 		Bulk mode addition of directories and recording PINs
 		Invoke with flag -b followed by each customer context to be added, separated with a space
-
+###
 
 ### CHANGE
 $dbntool change (bulk-change-field,move-recordings,field)
@@ -137,7 +138,7 @@ move-recordings
 field
 	Start change field wizard. Search and replace. Works with any matched string.
 	Asks for customer context and searches both dbn_voicemail.conf and [CUSTCONTEXT}/accounts.csv
-
+###
 	
 	
 ### REMOVE
@@ -156,7 +157,7 @@ users (CR, -c [CUSTCONTEXT] -i [INFILE])
 vmcontext
 	Confirms customer context and removes from dbn_voicemail.conf only.
 	Useful for rebuilding customer DBNs after significant changes (remove existing, add as new)
-
+###
 
 
 ### PRODUCTION
@@ -179,7 +180,7 @@ auto-push-reload
 	Asks for reason for pushing to servers for logging
 	Automatically pushes DBN file changes and recordings to production servers dbn-01 and dbn-02. Also triggers the reload scripts on the production servers to unpack the tarballs and reload the asterisk dialplan. 
 	Does not terminate in-progress calls.
-
+###
 
 
 ### SHOW
@@ -205,10 +206,10 @@ logs
 get-printout [CUSTCONTEXT]
 	Prints DBN recording number, Customer Context, Customer DBN DID, and customer recording PIN.
 	Mostly fallen out of use in favor of '$dbntool file export_accounts' which also moves accounts file to the html download directory for company retrieval. 
+###
 
 
-
-#FILE
+###FILE
 $dbntool file (column-order,fix-name,accounts.csv,vm_conf.add,push_dbn_extensions.conf,push_dbn_voicemail.conf,csv-import,export-accounts,reorder-accounts)
 
 column-order ({1-3} {1-3} {1-3})
@@ -252,12 +253,12 @@ export-accounts [CUSTCONTEXT]
 reorder-accounts [INFILE]
 	Reorders accounts in supplied file. 
 	Works by ordering accounts with line number and removes previous line number (intended only for accounts.csv files, not meant for other uses/may not work)
-
+###
 
 ### HELP
 $dbntool help
 	Prints the readme file.
-
+###
 
 ### GIT
 $dbntool git (add,show-trackedfiles)
@@ -269,7 +270,7 @@ add
 show-trackedfiles
 	Run as sudo
 	Shows all files currently tracked by git (they are hidden when running git status)
-
+###
 
 
 ### AUTO
@@ -279,4 +280,4 @@ $dbntool auto new-dbn (-c [CUSTCONTEXT] -d [DBNDID] -i [INFILE] {CR,-F})
 	Run without -F to run a series of checks that validates the input file format, checkes for existing contexts and directory, colliding VM recording pins, and displays preview of additions to dbn_voicemail.conf and [CUSTCONTEXT]/accounts.csv
 	After approving the changes, run with -F to force the creation of all the required DBN components. 
 	Check the changes through Git to ensure it was successful.
-	
+###

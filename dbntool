@@ -17,6 +17,7 @@ else
 				"write-changes") echo "disabled, use git for version control" ;;
 				"clean-up") /etc/dbntool/scripts/log_clean-up.sh ;;
 				"show-diff") echo "disabled, use git for version control" ;;
+				"help") _help_search "LOG" ;;
 			esac ;;
 
 #		"new")
@@ -42,6 +43,7 @@ else
 			
 				"recording-pin") /etc/dbntool/scripts/new_recording_pin.sh "${@:3}" ;;
 				"dbn-directory") /etc/dbntool/scripts/new_dbn-directory.sh "${@:3}" ;;
+				"help") _help_search "ADD" ;;
 			esac ;;
 
 		"change")
@@ -49,12 +51,14 @@ else
 				"bulk-change-field") echo "Not yet configured" ;;
 				"move-recordings") /etc/dbntool/scripts/move_recordings.sh $3 ;;
 				"field") /etc/dbntool/scripts/change_field.sh ;;
+				"help") _help_search "CHANGE" ;;
 			esac ;;
 
 		"remove")
 			case $2 in
 				"users") /etc/dbntool/scripts/remove_users.sh "${@:3}"  ;;
 				"vmcontext") /etc/dbntool/scripts/remove_vmcontext.sh "${@:3}" ;;
+				"help") _help_search "REMOVE" ;;
 			esac ;;
 	
 		"production")
@@ -63,7 +67,8 @@ else
 				"remote-reload") /etc/dbntool/scripts/prod_remote-update.sh ;;
 				"login") echo "Not yet configured" ;;
 				"show-reload-logs") /etc/dbntool/scripts/prod_show-reloadlogs.sh ;;
-				"auto-push-reload") /etc/dbntool/scripts/prod_auto-push-reload.sh ;;				
+				"auto-push-reload") /etc/dbntool/scripts/prod_auto-push-reload.sh ;;
+				"help") _help_search "PRODUCTION" ;;
 			esac ;;
 		
 		"show")
@@ -80,6 +85,7 @@ else
 				"name-recordings") /etc/dbntool/scripts/show_name-recordings.sh "$3" ;;
 				"logs") echo "Not yet configured" ;;
 				"get-printout") /etc/dbntool/scripts/get-printout.sh $3 ;;
+				"help") _help_search "SHOW" ;;
 			esac ;;
 		
 		"file")
@@ -93,17 +99,24 @@ else
 				"csv-import") /etc/dbntool/scripts/file_csv-import.sh "${@:3}" ;;
 				"export-accounts") /etc/dbntool/scripts/file_export-accounts.sh $3 ;;
 				"reorder-accounts") /etc/dbntool/scripts/file_reorder.sh $3 ;;
+				"help") _help_search "FILE" ;;
 			esac ;;
 		"help")
-			cat /etc/dbntool/readme.txt ;;
+			case $2 in
+				"about") _help_search "DBNTOOL" ;;
+				"process") _help_search "DBN_TRAINING" ;;
+				"") cat /etc/dbntool/readme.txt ;;
+			esac ;;
 		"git")
 			case $2 in
 				"add") /etc/dbntool/scripts/git_add.sh ;;
 				"show-trackedfiles") /etc/dbntool/scripts/git_show-trackedfiles.sh ;;
+				"help") _help_search "GIT" ;;
 			esac ;;
 		"auto")
 			case $2 in
 				"new-dbn") /etc/dbntool/scripts/auto_new-dbn.sh "${@:3}" ;;
+				"help") _help_search "AUTO" ;;
 			esac ;;
 	esac
 fi
