@@ -67,7 +67,8 @@ else
 				"remote-reload") /etc/dbntool/scripts/prod_remote-update.sh ;;
 				"login") echo "Not yet configured" ;;
 				"show-reload-logs") /etc/dbntool/scripts/prod_show-reloadlogs.sh ;;
-				"auto-push-reload") /etc/dbntool/scripts/prod_auto-push-reload.sh ;;
+				#"auto-push-reload") /etc/dbntool/scripts/prod_auto-push-reload.sh ;;
+				"auto-push-reload") echo "command moved, run 'sudo dbnpush' to push to production" ;;
 				"help") _help_search "PRODUCTION" ;;
 			esac ;;
 		

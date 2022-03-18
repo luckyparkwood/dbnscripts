@@ -3,10 +3,10 @@
 date="$(date)"
 
 #check for root
-#if [ `whoami` != root ]; then
-#	echo Please run this script as root or using sudo
-#	exit
-#fi
+if [ `whoami` != root ]; then
+	echo Please run this script as root using sudo
+	exit
+fi
 
 read -p "Comment for push?  " pushComment
 echo "
