@@ -40,7 +40,7 @@ fi
 
 _import_file () {
 cd "$dir_ccdbn"/"$custContext"
-awk -F, '{print $3}' $inFilePath/$inFile > remove_temp.csv
+awk -F, '{print $3}' $inFile > remove_temp.csv
 grep -f remove_temp.csv accounts.csv > remove_pre.acc
 grep -vf remove_temp.csv accounts.csv > remove_final.acc
 grep -f remove_temp.csv $file_dbnvmconf > remove_pre.vm
