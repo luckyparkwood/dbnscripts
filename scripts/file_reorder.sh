@@ -11,6 +11,6 @@ fi
 
 cd $inFilePath
 
-cat $inFile | grep -n '' | sed -E 's/:[0-9]+//g' >> reorder_$inFile
+cat $inFile | grep -n '' | sed -E 's/:[0-9]+//g' >> "$inFile".reorder
 
-echo "Accounts re-ordered, saved as 'reorder_$inFile'"
+echo "Accounts re-ordered, saved as $inFile.reorder"

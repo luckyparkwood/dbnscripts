@@ -39,12 +39,12 @@ fi
 }
 
 _import_file () {
-cd "$dir_ccdbn"/"$custContext"
-awk -F, '{print $3}' $inFile > remove_temp.csv
-grep -f remove_temp.csv accounts.csv > remove_pre.acc
-grep -vf remove_temp.csv accounts.csv > remove_final.acc
-grep -f remove_temp.csv $file_dbnvmconf > remove_pre.vm
-grep -vf remove_temp.csv $file_dbnvmconf > remove_final.vm
+#cd "$dir_ccdbn"/"$custContext"
+awk -F, '{print $3}' $inFile > /tmp/remove_temp.csv
+grep -f /tmp/remove_temp.csv $dir_ccdbn/$custContext/accounts.csv > /tmp/remove_pre.acc
+grep -vf /tmp/remove_temp.csv $dir_ccdbn/$custContext/accounts.csv > /tmp/remove_final.acc
+grep -f /tmp/remove_temp.csv $file_dbnvmconf > /tmp/remove_pre.vm
+grep -vf /tmp/remove_temp.csv $file_dbnvmconf > /tmp/remove_final.vm
 }
 
 
@@ -58,13 +58,13 @@ cat remove_pre.vm
 }
 
 _detect_dupes () {
-if [[ ! -z $(grep -of "$dir_ccdbn"/"$custContext"/remove_temp.csv "$dir_ccdbn"/"$custContext"/accounts.csv | uniq -d) ]] ; then 
+if [[ ! -z $(grep -of /tmp/remove_temp.csv "$dir_ccdbn"/"$custContext"/accounts.csv | uniq -d) ]] ; then 
 	echo "accounts.csv dupes detected!"
-	grep -of "$dir_ccdbn"/"$custContext"/remove_temp.csv "$dir_ccdbn"/"$custContext"/accounts.csv | uniq -d
+	grep -of /tmp/remove_temp.csv "$dir_ccdbn"/"$custContext"/accounts.csv | uniq -d
 	return 1
-elif [[ ! -z $(grep -of "$dir_ccdbn"/"$custContext"/remove_temp.csv $file_dbnvmconf | uniq -d) ]] ; then 
+elif [[ ! -z $(grep -of /tmp/remove_temp.csv $file_dbnvmconf | uniq -d) ]] ; then 
 	echo "vm.conf dupes detected!"
-	grep -of "$dir_ccdbn"/"$custContext"/remove_temp.csv $file_dbnvmconf | uniq -d
+	grep -of /tmp/remove_temp.csv $file_dbnvmconf | uniq -d
 	return 1
 fi
 }
@@ -104,17 +104,11 @@ if [[ $flag_mode == "yes" ]] ; then
 			fi
 		fi
 		
-		cd $voicemailPath
-		cp dbn_voicemail.conf _dbn_voicemail.conf
-		mv "$dir_ccdbn"/"$custContext"/remove_final.vm dbn_voicemail.conf
-		_set_permissions "/etc/asterisk/dbn_voicemail.conf"
+		mv /tmp/remove_final.vm $file_dbnvmconf
+		_set_permissions $file_dbnvmconf
 
-		cd "$dir_ccdbn"/"$custContext" 
-		cp accounts.csv _accounts.csv
-		mv remove_final.acc accounts.csv
+		mv /tmp/remove_final.acc "$dir_ccdbn"/"$custContext"/accounts.csv
 
-		echo "cleaning up"
-		_cleanup_files
 		echo "done"
 		exit
 	fi

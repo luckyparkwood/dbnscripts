@@ -2,12 +2,13 @@
 . /etc/dbntool/scripts/functions.cfg
 
 #validate flags
-while getopts c:i:vh flag
+while getopts c:i:tvh flag
 do
 	case "${flag}" in
 		v) echo "${flag} not yet implemented";;
 		c) custContext=${OPTARG}; flag_mode="yes";;
 		i) inFile=${OPTARG}; flag_mode="yes";;
+		t) moveMode="top";;
 		h) echo "todo"; exit;;
 		?) echo "invalid flag, exiting" >&2; exit;;
 	esac
@@ -29,13 +30,13 @@ _userAdd () {
 		i=$((i+1))
 	done < $inFile
 
-	#uncomment the next 2 lines to add new lines to the top of file, comment out line 47, only use one or the other
-	#cat $dir_ccdbn/$custContext/accounts.csv >> /tmp/dbntool-usermove.tmp
-	#cp /tmp/dbntool-usermove.tmp $dir_ccdbn/$custContext/accounts.csv
-	
-	#uncomment the line below to add lines to the bottom of the file
-	cat /tmp/dbntool-usermove.tmp >> $dir_ccdbn/$custContext/accounts.csv
 
+if [[ $moveMode == "top" ]] ; then
+	cat $dir_ccdbn/$custContext/accounts.csv >> /tmp/dbntool-usermove.tmp
+	cp /tmp/dbntool-usermove.tmp $dir_ccdbn/$custContext/accounts.csv
+else	
+	cat /tmp/dbntool-usermove.tmp >> $dir_ccdbn/$custContext/accounts.csv
+fi
 }
 
 
@@ -62,8 +63,6 @@ else
 	_userRemove
 	_userAdd
 	
-	#cat $dir_ccdbn/$custContext/accounts.csv | grep -n '' | sed -E 's/:[0-9]+//g' > /tmp/dbntool.tmp
-	#cp /tmp/dbntool.tmp $dir_ccdbn/$custContext/accounts.csv
 	
 	echo "script finished, check for errors before commiting and pushing to production"
 	exit
