@@ -8,7 +8,8 @@ fi
 
 #reorder accounts before export
 cd /var/lib/asterisk/CCdbn/$custContext/
-cp -p accounts.csv _accounts.csv
+#removing accounts file backup, using git instead
+#cp -p accounts.csv _accounts.csv
 cat _accounts.csv | grep -n '' | sed -E 's/:[0-9]+//g' > accounts.csv
 
 

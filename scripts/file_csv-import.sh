@@ -15,9 +15,9 @@ done
 
 
 _csv_parse() {
-awk -F ',' '{ print NR "," $1 " " $2 "," $3 }' tempFile.csv > $dir_ccdbn/$custContext/accounts.csv
-awk -F ',' '{ print $3 " => 12345," $1 " " $2 ",,,"}' tempFile.csv > $dir_ccdbn/$custContext/vm_conf.add
-mv tempFile.csv $inFile
+awk -F ',' '{ print NR "," $1 " " $2 "," $3 }'  /tmp/dbntool-tempFile.csv > $dir_ccdbn/$custContext/accounts.csv
+awk -F ',' '{ print $3 " => 12345," $1 " " $2 ",,,"}'  /tmp/dbntool-tempFile.csv > $dir_ccdbn/$custContext/vm_conf.add
+mv  /tmp/dbntool-tempFile.csv $inFile
 echo "accounts.csv and vm_conf.add created."
 echo "setting owner and permissions for new files"
 _set_permissions
@@ -28,12 +28,12 @@ _preview_parse () {
 echo
 echo "file additions:"
 echo "accounts.csv"
-awk -F ',' '{ print NR "," $1 " " $2 "," $3 }' tempFile.csv > acc-tempFile.csv
-cat acc-tempFile.csv
+awk -F ',' '{ print NR "," $1 " " $2 "," $3 }'  /tmp/dbntool-tempFile.csv > /tmp/dbntool-acc-tempFile.csv
+cat /tmp/dbntool-acc-tempFile.csv
 echo
 echo "vm_conf.add"
-awk -F ',' '{ print $3 " => 12345," $1 " " $2 ",,,"}' tempFile.csv > vm-tempFile.csv
-cat vm-tempFile.csv
+awk -F ',' '{ print $3 " => 12345," $1 " " $2 ",,,"}'  /tmp/dbntool-tempFile.csv >  /tmp/dbntool-vm-tempFile.csv
+cat  /tmp/dbntool-vm-tempFile.csv
 }
 
 _set_permissions(){
@@ -74,10 +74,6 @@ if [[ $flag_mode == "yes" ]] ; then
 		echo "Flag mode requires -c for Cust Context and -i for Input File"
 		exit 1
 	fi
-
-	if [[ -f $dir_ccdbn/$custContext/accounts.csv ]] ; then
-		mv $dir_ccdbn/$custContext/accounts.csv $dir_ccdbn/$custContext/_accounts.csv
-	fi
 	_csv_parse
 	exit
 fi	
@@ -87,28 +83,13 @@ cd $dir_ccdbn/$custContext
 _preview_parse
 read -p "Print to accounts.csv and vm_conf.add? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]] ; then
-	if [[ -f "./accounts.csv" ]] ; then
-		echo
-		read -p "accounts.csv already exists, rename the old file to continue? " -n 1 -r
-		if [[ $REPLY =~ ^[Yy]$ ]] ; then
-			echo	
-			mv accounts.csv _accounts.csv
-			_csv_parse
-			rm tempFile.csv acc-tempFile.csv vm-tempFile.csv
-		else
-			echo "cancelling..."
-			rm tempFile.csv acc-tempFile.csv vm-tempFile.csv
-
-		fi
-	else
-		echo
-		_csv_parse
-		rm acc-tempFile.csv vm-tempFile.csv
-	fi
+	echo
+	_csv_parse
+	_cleanup_files
 else
 	echo
 	echo "Cancelling..."
-	rm tempFile.csv acc-tempFile.csv vm-tempFile.csv
+	_cleanup_files
 fi
 
 echo "done"

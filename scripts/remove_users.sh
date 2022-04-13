@@ -69,13 +69,14 @@ elif [[ ! -z $(grep -of /tmp/remove_temp.csv $file_dbnvmconf | uniq -d) ]] ; the
 fi
 }
 
-_cleanup_files () {
-rm remove_pre.acc 2> /dev/null
-rm remove_pre.vm 2> /dev/null
-rm remove_temp.csv 2> /dev/null
-rm accounts-temp.csv 2> /dev/null
-rm voicemail-temp.csv 2> /dev/null
-}
+#moved to dbntool functions
+#_cleanup_files () {
+#rm remove_pre.acc 2> /dev/null
+#rm remove_pre.vm 2> /dev/null
+#rm remove_temp.csv 2> /dev/null
+#rm accounts-temp.csv 2> /dev/null
+#rm voicemail-temp.csv 2> /dev/null
+#}
 
 #auto mode
 if [[ $flag_mode == "yes" ]] ; then
@@ -108,6 +109,9 @@ if [[ $flag_mode == "yes" ]] ; then
 		_set_permissions $file_dbnvmconf
 
 		mv /tmp/remove_final.acc "$dir_ccdbn"/"$custContext"/accounts.csv
+		
+		cd /tmp/
+		_cleanup_files
 
 		echo "done"
 		exit
