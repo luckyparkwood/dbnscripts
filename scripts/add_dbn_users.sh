@@ -16,23 +16,23 @@ _dbn_exist_file () {
 i=1
 while IFS=, read -r first last userdid
 do
-echo "$i,$first $last,$userdid" >> $dir_ccdbn/$custContext/temp.acc
+echo "$i,$first $last,$userdid" >> /tmp/dbntool-acc.tmp
 i=$((i+1))
 done < $inFile
 
 while IFS=, read -r first last userdid
 do
-echo "$userdid => 12345,$first $last,,," >> $dir_ccdbn/$custContext/temp.vm 
+echo "$userdid => 12345,$first $last,,," >> /tmp/dbntool-vm.tmp 
 done < $inFile
 }
 
 _dbn_exist_add () {
 #perform the operations on the files
 #accounts.csv
-cat $dir_ccdbn/$custContext/accounts.csv >> $dir_ccdbn/$custContext/temp.acc
-mv $dir_ccdbn/$custContext/temp.acc $dir_ccdbn/$custContext/accounts.csv
+cat $dir_ccdbn/$custContext/accounts.csv >> /tmp/dbntool-acc.tmp
+mv /tmp/dbntool-acc.tmp $dir_ccdbn/$custContext/accounts.csv
 #chown asterisk:asterisk $dir_ccdbn/$custContext/accounts.csv
-chmod 774 $dir_ccdbn/$custContext/accounts.csv
+_set_permissions  $dir_ccdbn/$custContext/accounts.csv
 
 #dbn_voicemail.conf
 while IFS=, read -r first last userdid
@@ -42,7 +42,6 @@ done < $inFile
 echo "new users added."
 #chown asterisk:asterisk $file_dbnvmconf
 #chmod 774 $file_dbnvmconf
-rm $dir_ccdbn/$custContext/temp.vm
 }
 
 
@@ -69,7 +68,9 @@ if [[ $flag_mode == "yes" ]] ; then
 		_input_validation
 		# execute functions
 		_dbn_exist_file
+		set -e
 		_dbn_exist_add
+		_cleanup_files
 		echo "added users to $file_dbnvmconf and $dir_ccdbn/$custContext/accounts.csv"
 		exit
 	fi
@@ -89,22 +90,22 @@ _dbn_exist_file
 #accounts.csv
 #addition preview
 echo "New lines to be added to accounts.csv: "
-cat $dir_ccdbn/$custContext/temp.acc
+cat /tmp/dbntool-acc.tmp
 echo
 
 #dbn_voicemail.conf
 #addition preview
 echo "New lines to be added to dbn_voicemail.conf:"
-cat $dir_ccdbn/$custContext/temp.vm
+cat /tmp/dbntool-vm.tmp
 echo
 
 read -p "Confirm the additions to accounts.csv and dbn_voicemail.conf? " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]; then
 	_dbn_exist_add
+	_cleanup_files
 else
 	echo "cancelling..."
-	rm $dir_ccdbn/$custContext/temp.acc
-	rm $dir_ccdbn/$custContext/temp.vm
+	_cleanup_files
 fi
 

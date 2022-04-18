@@ -109,7 +109,9 @@ if [[ $flag_mode == "yes" ]] ; then
 		_set_permissions $file_dbnvmconf
 
 		mv /tmp/remove_final.acc "$dir_ccdbn"/"$custContext"/accounts.csv
-		
+		_set_permissions "$dir_ccdbn"/"$custContext"/accounts.csv
+
+
 		cd /tmp/
 		_cleanup_files
 
