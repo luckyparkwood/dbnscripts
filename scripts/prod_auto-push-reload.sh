@@ -9,10 +9,13 @@ if [ `whoami` != root ]; then
 fi
 
 read -p "Comment for push?  " pushComment
-echo "
-Initiated by $USER on $date
-Comment: $pushComment" >> /var/log/dbntool/push_2_prod.log
-
+echo
+if [[ -z $pushComment ]] ; then
+	echo "comment cannot be empty"
+	exit
+else
+	echo "Initiated by $USER on $date \nComment: $pushComment" >> /var/log/dbntool/push_2_prod.log
+fi
 #set -e
 
 #read -s -p "DBNadmin sudo password: " DBNPASS

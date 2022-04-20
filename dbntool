@@ -9,7 +9,7 @@ if [ -z "$1" ]; then
 else
 	#echo "Variables: $*"
 	case $1 in
-		"update") /etc/dbntool/scripts/update_dbn.sh ;;
+		"update") /etc/dbntool/scripts/admin_update-dbn.sh ;;
 
 		"log")
 			case $2 in
