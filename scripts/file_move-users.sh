@@ -2,18 +2,19 @@
 . /etc/dbntool/scripts/functions.cfg
 
 #validate flags
-while getopts c:i:tvh flag
+while getopts c:i:bvh flag
 do
 	case "${flag}" in
 		v) echo "${flag} not yet implemented";;
 		c) custContext=${OPTARG}; flag_mode="yes";;
 		i) inFile=${OPTARG}; flag_mode="yes";;
-		t) moveMode="top";;
+		b) moveMode="bot";;
 		h) echo "todo"; exit;;
 		?) echo "invalid flag, exiting" >&2; exit;;
 	esac
 done
 
+moveMode="top"
 
 _userRemove () {
 	awk -F, 'BEGIN {OFS=","}{print $3}' $inFile > /tmp/dbntool-usermove.tmp

@@ -1,5 +1,17 @@
 #!/bin/bash
 
+_set_vars () {
+	while getopts nh flag
+	do
+		case "${flag}" in
+			n) name_only="yes"; flag_mode="yes";;                
+			h) help_mode="yes";;
+			?) echo "invalid flag" >&2; exit 1;;
+		esac
+	done
+}
+
+
 date="$(date)"
 
 #check for root
@@ -42,11 +54,13 @@ fi
 	
 chown -R asterisk.asterisk /var/spool/asterisk/voicemail
 chown -R asterisk.asterisk /etc/asterisk/dbn_*.conf
-tar cvf cloudcall_voicemail_full.tar --exclude='/var/spool/asterisk/voicemail/default' /var/spool/asterisk/voicemail/ /etc/asterisk/dbn_*.conf
-#scp cloudcall_voicemail_full.tar bbowles@172.20.40.60:cloudcall_voicemail_staging.tar
-#scp cloudcall_voicemail_full.tar bbowles@172.20.40.61:cloudcall_voicemail_staging.tar
-#scp cloudcall_voicemail_full.tar joelane@172.20.40.60:cloudcall_voicemail_staging.tar
-#scp cloudcall_voicemail_full.tar joelane@172.20.40.61:cloudcall_voicemail_staging.tar
+
+if [[ $name_only == "yes" ]]; then
+	tar cvf cloudcall_voicemail_full.tar --exclude='/var/spool/asterisk/voicemail/default' /var/spool/asterisk/voicemail/
+else
+	tar cvf cloudcall_voicemail_full.tar --exclude='/var/spool/asterisk/voicemail/default' /var/spool/asterisk/voicemail/ /etc/asterisk/dbn_*.conf
+fi
+
 #scp cloudcall_voicemail_full.tar chrisbright@172.20.40.60:cloudcall_voicemail_staging.tar
 #scp cloudcall_voicemail_full.tar chrisbright@172.20.40.61:cloudcall_voicemail_staging.tar
 chmod 664 cloudcall_voicemail_full.tar

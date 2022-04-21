@@ -74,7 +74,7 @@ _dbntool_complete()
 					COMPREPLY=( $(compgen -W "all date list" -- $cur) ) ;;
 
 				"customer-info")
-					COMPREPLY=( $(compgen -W "all" -- $cur) ) ;;
+					COMPREPLY=( $(compgen -W "$(grep -oe "\[.*\]" /etc/asterisk/dbn_voicemail.conf | sed -E 's/\[|\]/\"/g' | sed -z 's/\n/ /g;s/ $/\n/')" -- $cur ) ) ;;
 			esac
 		fi
 	
