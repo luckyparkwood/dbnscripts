@@ -19,8 +19,6 @@ _dbntool_complete()
 				COMPREPLY=( $(compgen -W "bulk-change-field move-recordings field help" -- $cur) ) ;;
 			"log") 
 				COMPREPLY=( $(compgen -W "backup write-changes clean-up show-diff help" -- $cur) ) ;;
-#			"new") 
-#				COMPREPLY=( $(compgen -W "recording-pin dbn-directory" -- $cur) ) ;;
 			"production") 
 				COMPREPLY=( $(compgen -W "push-2-prod remote-reload server-login show-reload-logs auto-push-reload help" -- $cur) ) ;;
 			"remove") 
@@ -49,11 +47,6 @@ _dbntool_complete()
 				"recording-move")
 					COMPREPLY=() ;;
 			esac
-#		elif [ $prev2 == "new" ] ; then
-#			case "$prev" in
-#				"csv-import")
-#					COMPREPLY=() ;;
-#			esac
 		elif [ $prev2 == "production" ] ; then
 			case "$prev" in
 				"login")
@@ -77,9 +70,11 @@ _dbntool_complete()
 					COMPREPLY=( $(compgen -W "$(grep -oe "\[.*\]" /etc/asterisk/dbn_voicemail.conf | sed -E 's/\[|\]/\"/g' | sed -z 's/\n/ /g;s/ $/\n/')" -- $cur ) ) ;;
 			esac
 		fi
-	
+	elif [ $COMP_CWORD -ge 4 ]; then
+		if [ $prev == "-c" ] ; then
+			COMPREPLY=( $(compgen -W "$(grep -oe "\[.*\]" /etc/asterisk/dbn_voicemail.conf | sed -E 's/\[|\]/\"/g' | sed -z 's/\n/ /g;s/ $/\n/')" -- $cur ) )
+		fi
 	fi
-
 	return 0
 }
 
