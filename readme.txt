@@ -176,11 +176,6 @@ login
 	(not yet built)
 show-reload-logs
 	Reads contents of the production push and reload log
-auto-push-reload
-	Run as sudo
-	Combination of push-2-prod and remote-reload scripts
-	Asks for reason for pushing to servers for logging
-	Automatically pushes DBN file changes and recordings to production servers dbn-01 and dbn-02. Also triggers the reload scripts on the production servers to unpack the tarballs and reload the asterisk dialplan. 
 	Does not terminate in-progress calls.
 ###
 
@@ -255,6 +250,11 @@ export-accounts [CUSTCONTEXT]
 reorder-accounts [INFILE]
 	Reorders accounts in supplied file. 
 	Works by ordering accounts with line number and removes previous line number (intended only for accounts.csv files, not meant for other uses/may not work)
+move-users ([INFILE], -c [CUSTCONTEXT] -i [INFILE] [-b])
+	Guided exec: Pass file to command to start guided exec. Will ask for customer context and use the supplied file containing First,Last,DID to move those users to the top of the customers accounts.csv file. 
+	Flag mode: Take arguments passed by flags to move the users in the INFILE to the top of the customers accounts.csv file.
+	-b : This optional flag will add the supplied users to the bottom of the file instead of the default destination of top of the file. 
+	
 ###
 
 ### HELP
@@ -282,4 +282,14 @@ $dbntool auto new-dbn (-c [CUSTCONTEXT] -d [DBNDID] -i [INFILE] {CR,-F})
 	Run without -F to run a series of checks that validates the input file format, checkes for existing contexts and directory, colliding VM recording pins, and displays preview of additions to dbn_voicemail.conf and [CUSTCONTEXT]/accounts.csv
 	After approving the changes, run with -F to force the creation of all the required DBN components. 
 	Check the changes through Git to ensure it was successful.
+###
+
+
+### DBNPUSH
+$sudo dbnpush [-n]
+	Formerly dbntool production auto-push-reload	
+	Run as sudo
+	Combination of push-2-prod and remote-reload scripts
+	Asks for reason for pushing to servers for logging - cannot be empty
+	Automatically pushes DBN file changes and recordings to production servers dbn-01 and dbn-02. Also triggers the reload scripts on the production servers to unpack the tarballs and reload the asterisk dialplan. 
 ###

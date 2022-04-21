@@ -14,8 +14,6 @@ do
 	esac
 done
 
-moveMode="top"
-
 _userRemove () {
 	awk -F, 'BEGIN {OFS=","}{print $3}' $inFile > /tmp/dbntool-usermove.tmp
 	grep -vf /tmp/dbntool-usermove.tmp $dir_ccdbn/$custContext/accounts.csv > /tmp/dbntool.tmp
@@ -32,7 +30,7 @@ _userAdd () {
 	done < $inFile
 
 
-if [[ $moveMode == "top" ]] ; then
+if [[ ! $moveMode == "bot" ]] ; then
 	cat $dir_ccdbn/$custContext/accounts.csv >> /tmp/dbntool-usermove.tmp
 	cp /tmp/dbntool-usermove.tmp $dir_ccdbn/$custContext/accounts.csv
 else	
@@ -43,13 +41,17 @@ fi
 
 _validate_infile $1
 
-if [[ $flag_mode == "test" ]] ; then
+if [[ $flag_mode == "yes" ]] ; then
 	if [[ -z $custContext || -z $inFile ]] ; then
 		echo "flag mode requires parameters -c for Customer Context and -i for input file"
 		echo "exiting"
 		exit 0
 	else
-		echo "Flag mode exec"
+		_userRemove
+		_userAdd
+		echo
+		echo "script finished, check for errors before commiting and pushing to production"
+		exit
 
 	fi
 else
@@ -63,7 +65,6 @@ else
 	_set_custContext
 	_userRemove
 	_userAdd
-	
 	
 	echo "script finished, check for errors before commiting and pushing to production"
 	exit

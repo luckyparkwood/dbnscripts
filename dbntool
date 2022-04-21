@@ -20,11 +20,6 @@ else
 				"help") _help_search "LOG" ;;
 			esac ;;
 
-#		"new")
-#			case $2 in
-#				"recording-pin") /etc/dbntool/scripts/new_recording_pin.sh "${@:3}" ;;
-#				"dbn-directory") /etc/dbntool/scripts/new_dbn-directory.sh "${@:3}" ;;
-#			esac ;;
 		"add")
 			case $2 in
 				"users") if [[ -z $3 ]] ; then
@@ -99,14 +94,15 @@ else
 				"push_dbn_voicemail.conf") /etc/dbntool/scripts/add_dbn_voicemail.sh "${@:3}" ;;
 				"csv-import") /etc/dbntool/scripts/file_csv-import.sh "${@:3}" ;;
 				"export-accounts") /etc/dbntool/scripts/file_export-accounts.sh $3 ;;
-				"reorder-accounts") /etc/dbntool/scripts/file_reorder.sh $3 ;;
+				"reorder-accounts") /etc/dbntool/scripts/file_reorder.sh "$3" ;;
+				"move-users") /etc/dbntool/scripts/file_move-users.sh "${@:3}" ;;
 				"help") _help_search "FILE" ;;
 			esac ;;
-		"help")
+		"help"|"-h")
 			case $2 in
 				"about") _help_search "DBNTOOL" ;;
 				"process") _help_search "DBN_TRAINING" ;;
-				"") cat /etc/dbntool/readme.txt ;;
+				"") less /etc/dbntool/readme.txt ;;
 			esac ;;
 		"git")
 			case $2 in

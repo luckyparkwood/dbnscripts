@@ -1,15 +1,14 @@
 #!/bin/bash
+. /etc/dbntool/scripts/functions.cfg
 
-_set_vars () {
-	while getopts nh flag
-	do
-		case "${flag}" in
-			n) name_only="yes"; flag_mode="yes";;                
-			h) help_mode="yes";;
-			?) echo "invalid flag" >&2; exit 1;;
-		esac
-	done
-}
+while getopts nh flag
+do
+	case "${flag}" in
+		n) name_only="yes"; flag_mode="yes";;                
+		h) _help_search "DBNPUSH"; exit ;;
+		?) echo "invalid flag" >&2; exit 1;;
+	esac
+done
 
 
 date="$(date)"
