@@ -37,8 +37,8 @@ _dbntool_complete()
 	elif [ $COMP_CWORD -eq 3 ]; then
 		if [ $prev2 == "add" ] ; then
 			case "$prev" in
-				"user")
-					COMPREPLY=() ;;
+				"recording-pin")
+					COMPREPLY=( $(compgen -W "$(grep -oe "\[.*\]" /etc/asterisk/dbn_voicemail.conf | sed -E 's/\[|\]/\"/g' | sed -z 's/\n/ /g;s/ $/\n/')" -- $cur ) ) ;;
 			esac
 		elif [ $prev2 == "change" ] ; then
 			case "$prev" in
@@ -59,15 +59,20 @@ _dbntool_complete()
 				"recording")
 					COMPREPLY=() ;;
 			esac
+		elif [ $prev2 == "file" ] ; then
+			case "$prev" in
+				"export-accounts")
+					COMPREPLY=( $(compgen -W "$(grep -oe "\[.*\]" /etc/asterisk/dbn_voicemail.conf | sed -E 's/\[|\]/\"/g' | sed -z 's/\n/ /g;s/ $/\n/')" -- $cur ) ) ;;
+			esac	
 		elif [ $prev2 == "show" ] ; then
 			case "$prev" in
 				"recording-pin")
-					COMPREPLY=( $(compgen -W "all" -- $cur) ) ;;
+					COMPREPLY=( $(compgen -W "all $(grep -oe "\[.*\]" /etc/asterisk/dbn_voicemail.conf | sed -E 's/\[|\]/\"/g' | sed -z 's/\n/ /g;s/ $/\n/')" -- $cur) ) ;;
 				"logs")
 					COMPREPLY=( $(compgen -W "all date list" -- $cur) ) ;;
 
 				"customer-info")
-					COMPREPLY=( $(compgen -W "$(grep -oe "\[.*\]" /etc/asterisk/dbn_voicemail.conf | sed -E 's/\[|\]/\"/g' | sed -z 's/\n/ /g;s/ $/\n/')" -- $cur ) ) ;;
+					COMPREPLY=( $(compgen -W "all $(grep -oe "\[.*\]" /etc/asterisk/dbn_voicemail.conf | sed -E 's/\[|\]/\"/g' | sed -z 's/\n/ /g;s/ $/\n/')" -- $cur ) ) ;;
 			esac
 		fi
 	elif [ $COMP_CWORD -ge 4 ]; then
