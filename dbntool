@@ -8,7 +8,7 @@ if [ -z "$1" ]; then
 	cat /etc/dbntool/readme.txt
 else
 	case $1 in
-		#"update") /etc/dbntool/scripts/admin_update-dbn.sh ;;
+		#"update") /etc/dbntool/scripts/admin_update-dbntool.sh ;;
 		"log")
 			case $2 in
 				"backup") /etc/dbntool/scripts/log_backup.sh ;;
@@ -114,9 +114,10 @@ else
 			esac ;;
 		"admin")
 			case $2 in
-				"update") /etc/dbntool/scripts/admin_update-dbn.sh ;;
-				"dbntool-user_new") ;;
-				"dbntool-user_add") ;;	
+				"update") /etc/dbntool/scripts/admin_update-dbntool.sh ;;
+				"dbntool-user_new") admin_dbntool-user_new.sh ;;
+				"dbntool-user_test") admin_dbntool-user_test.sh ;;
+				"cleanup-tmpfiles") . _cleanup_files ;;	
 			esac ;;
 	esac
 fi

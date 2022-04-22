@@ -33,7 +33,8 @@ _dbntool_complete()
 				COMPREPLY=( $(compgen -W "new-dbn help" -- $cur) ) ;;
 			"help")
 				COMPREPLY=( $(compgen -W "process about" -- $cur) ) ;;
-			"admin") COMPREPLY=( $(compgen -W "update dbntool-user_new dbntool-user_test" -- $cur) ) ;;
+			"admin") 
+				COMPREPLY=( $(compgen -W "update dbntool-user_new dbntool-user_test cleanup-tmpfiles" -- $cur) ) ;;
 
 		esac
 	elif [ $COMP_CWORD -eq 3 ]; then
