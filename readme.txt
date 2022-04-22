@@ -65,11 +65,25 @@ $dbntool
 If no arguments are passed, it will display the help page.
 ###
 
-### UPDATE
-$dbntool update
+### ADMIN
+$dbntool (update-dbntool, dbntool-user_new, dbntool-user_test, cleanup-tmpfiles)
 
-Updates the binary in /usr/bin/ to match the local copy in the dbntool main directory
-(Sometimes needs to be run twice for some reason)
+update-dbntool
+	Updates the binaries in /usr/bin/ to match the local copies of dbntool and dbnpush in the dbntool main directory
+	(Sometimes needs to be run twice for some reason)
+dbntool-user_new
+	Creates new nonroot user on server to manage the dbn. Does the following:
+		Asks for new username
+		Asks for new password
+		Adds new user with home directory
+		Adds supplied password
+		Adds Bash as the default shell for new user
+		Adds new user to groups asterisk and sshuser
+		Adds User details to git global options to allow git use	
+dbntool-user_test
+	Tests user for the correct permissions and verifies setup.
+cleanup-tmpfiles
+	Manually removes any temporary files that might be blocking script execution in /tmp/
 ###
 
 ### LOG (depreciated, use git for version control)
