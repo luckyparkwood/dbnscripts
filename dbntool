@@ -5,7 +5,7 @@
 
 
 if [ -z "$1" ]; then
-	cat /etc/dbntool/readme.txt
+	less /etc/dbntool/readme.txt
 else
 	case $1 in
 		#"update") /etc/dbntool/scripts/admin_update-dbntool.sh ;;
@@ -16,6 +16,7 @@ else
 				"clean-up") /etc/dbntool/scripts/log_clean-up.sh ;;
 				"show-diff") echo "disabled, use git for version control" ;;
 				"help") _help_search "LOG" ;;
+				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
 
 		"add")
@@ -37,6 +38,7 @@ else
 				"recording-pin") /etc/dbntool/scripts/new_recording_pin.sh "${@:3}" ;;
 				"dbn-directory") /etc/dbntool/scripts/new_dbn-directory.sh "${@:3}" ;;
 				"help") _help_search "ADD" ;;
+				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
 
 		"change")
@@ -45,6 +47,7 @@ else
 				"move-recordings") /etc/dbntool/scripts/move_recordings.sh $3 ;;
 				"field") /etc/dbntool/scripts/change_field.sh ;;
 				"help") _help_search "CHANGE" ;;
+				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
 
 		"remove")
@@ -52,6 +55,7 @@ else
 				"users") /etc/dbntool/scripts/remove_users.sh "${@:3}"  ;;
 				"vmcontext") /etc/dbntool/scripts/remove_vmcontext.sh "${@:3}" ;;
 				"help") _help_search "REMOVE" ;;
+				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
 	
 		"production")
@@ -62,6 +66,7 @@ else
 				"show-reload-logs") /etc/dbntool/scripts/prod_show-reloadlogs.sh ;;
 				"auto-push-reload") echo "command moved, run 'sudo dbnpush' to push to production" ;;
 				"help") _help_search "PRODUCTION" ;;
+				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
 		
 		"show")
@@ -77,8 +82,8 @@ else
 					fi ;;
 				"name-recordings") /etc/dbntool/scripts/show_name-recordings.sh "$3" ;;
 				"logs") echo "Not yet configured" ;;
-				"get-printout") /etc/dbntool/scripts/get-printout.sh $3 ;;
 				"help") _help_search "SHOW" ;;
+				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
 		
 		"file")
@@ -90,34 +95,41 @@ else
 				"push_dbn_extensions.conf") /etc/dbntool/scripts/add_dbn_extensions.sh "${@:3}" ;;
 				"push_dbn_voicemail.conf") /etc/dbntool/scripts/add_dbn_voicemail.sh "${@:3}" ;;
 				"csv-import") /etc/dbntool/scripts/file_csv-import.sh "${@:3}" ;;
-				"export-accounts") /etc/dbntool/scripts/file_export-accounts.sh $3 ;;
+				"export-accounts") /etc/dbntool/scripts/file_export-accounts.sh "${@:3}" ;;
 				"reorder-accounts") /etc/dbntool/scripts/file_reorder.sh "$3" ;;
 				"move-users") /etc/dbntool/scripts/file_move-users.sh "${@:3}" ;;
 				"help") _help_search "FILE" ;;
+				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
 		"help"|"-h"|"-help")
 			case $2 in
 				"about") _help_search "DBNTOOL" ;;
+				"command-tree") cat /etc/dbntool/command-tree.txt ;;
 				"process") _help_search "DBN_TRAINING" ;;
 				"") less /etc/dbntool/readme.txt ;;
+				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
 		"git")
 			case $2 in
 				"add") /etc/dbntool/scripts/git_add.sh ;;
 				"show-trackedfiles") /etc/dbntool/scripts/git_show-trackedfiles.sh ;;
 				"help") _help_search "GIT" ;;
+				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
 		"auto")
 			case $2 in
 				"new-dbn") /etc/dbntool/scripts/auto_new-dbn.sh "${@:3}" ;;
 				"help") _help_search "AUTO" ;;
+				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
 		"admin")
 			case $2 in
-				"update") /etc/dbntool/scripts/admin_update-dbntool.sh ;;
+				"update-dbntool") /etc/dbntool/scripts/admin_update-dbntool.sh ;;
+				"update-permissions") admin_update-permissions.sh ;;
 				"dbntool-user_new") admin_dbntool-user_new.sh ;;
 				"dbntool-user_test") admin_dbntool-user_test.sh ;;
-				"cleanup-tmpfiles") . _cleanup_files ;;	
+				"cleanup-tmpfiles") _cleanup_files ;;	
+				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
 	esac
 fi

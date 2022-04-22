@@ -66,11 +66,13 @@ If no arguments are passed, it will display the help page.
 ###
 
 ### ADMIN
-$dbntool (update-dbntool, dbntool-user_new, dbntool-user_test, cleanup-tmpfiles)
+$dbntool (update-dbntool, update-permissions, dbntool-user_new, dbntool-user_test, cleanup-tmpfiles)
 
 update-dbntool
 	Updates the binaries in /usr/bin/ to match the local copies of dbntool and dbnpush in the dbntool main directory
 	(Sometimes needs to be run twice for some reason)
+update-permissions
+	Resets permissions of all dbntool managed files to 775 and owner :asterisk
 dbntool-user_new
 	Creates new nonroot user on server to manage the dbn. Does the following:
 		Asks for new username
