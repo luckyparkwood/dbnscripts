@@ -10,7 +10,7 @@ _dbntool_complete()
 	prev2=${COMP_WORDS[COMP_CWORD-2]}
 
 	if [ $COMP_CWORD -eq 1 ]; then
-		COMPREPLY=( $(compgen -W "add change log production remove show help update file git auto" -- $cur) )
+		COMPREPLY=( $(compgen -W "add change log production remove show help file git auto admin" -- $cur) )
 	elif [ $COMP_CWORD -eq 2 ]; then
 		case "$prev" in
 			"add") 
@@ -26,13 +26,15 @@ _dbntool_complete()
 			"show") 
 				COMPREPLY=( $(compgen -W "customer-info recording-pin name-recordings logs get-printout help" -- $cur) ) ;;
 			"file") 
-				COMPREPLY=( $(compgen -W "column-order fix-name accounts.csv vm_conf.add push_dbn_extensions.conf push_dbn_voicemail.conf csv-import export-accounts reorder-accounts help" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "column-order fix-name accounts.csv vm_conf.add push_dbn_extensions.conf push_dbn_voicemail.conf csv-import export-accounts reorder-accounts help move-users" -- $cur) ) ;;
 			"git") 
 				COMPREPLY=( $(compgen -W "add show-trackedfiles help" -- $cur) ) ;;
 			"auto") 
 				COMPREPLY=( $(compgen -W "new-dbn help" -- $cur) ) ;;
 			"help")
 				COMPREPLY=( $(compgen -W "process about" -- $cur) ) ;;
+			"admin") COMPREPLY=( $(compgen -W "update dbntool-user_new dbntool-user_test" -- $cur) ) ;;
+
 		esac
 	elif [ $COMP_CWORD -eq 3 ]; then
 		if [ $prev2 == "add" ] ; then

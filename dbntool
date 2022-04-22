@@ -7,10 +7,8 @@
 if [ -z "$1" ]; then
 	cat /etc/dbntool/readme.txt
 else
-	#echo "Variables: $*"
 	case $1 in
-		"update") /etc/dbntool/scripts/admin_update-dbn.sh ;;
-
+		#"update") /etc/dbntool/scripts/admin_update-dbn.sh ;;
 		"log")
 			case $2 in
 				"backup") /etc/dbntool/scripts/log_backup.sh ;;
@@ -62,7 +60,6 @@ else
 				"remote-reload") /etc/dbntool/scripts/prod_remote-update.sh ;;
 				"login") echo "Not yet configured" ;;
 				"show-reload-logs") /etc/dbntool/scripts/prod_show-reloadlogs.sh ;;
-				#"auto-push-reload") /etc/dbntool/scripts/prod_auto-push-reload.sh ;;
 				"auto-push-reload") echo "command moved, run 'sudo dbnpush' to push to production" ;;
 				"help") _help_search "PRODUCTION" ;;
 			esac ;;
@@ -98,7 +95,7 @@ else
 				"move-users") /etc/dbntool/scripts/file_move-users.sh "${@:3}" ;;
 				"help") _help_search "FILE" ;;
 			esac ;;
-		"help"|"-h")
+		"help"|"-h"|"-help")
 			case $2 in
 				"about") _help_search "DBNTOOL" ;;
 				"process") _help_search "DBN_TRAINING" ;;
@@ -114,6 +111,12 @@ else
 			case $2 in
 				"new-dbn") /etc/dbntool/scripts/auto_new-dbn.sh "${@:3}" ;;
 				"help") _help_search "AUTO" ;;
+			esac ;;
+		"admin")
+			case $2 in
+				"update") /etc/dbntool/scripts/admin_update-dbn.sh ;;
+				"dbntool-user_new") ;;
+				"dbntool-user_add") ;;	
 			esac ;;
 	esac
 fi
