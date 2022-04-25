@@ -131,5 +131,6 @@ else
 				"cleanup-tmpfiles") _cleanup_files ;;	
 				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
+		*) echo "command incomplete or unrecognized" ;;
 	esac
 fi
