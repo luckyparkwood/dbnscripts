@@ -82,6 +82,7 @@ else
 					fi ;;
 				"name-recordings") /etc/dbntool/scripts/show_name-recordings.sh "$3" ;;
 				"logs") echo "Not yet configured" ;;
+				"duplicates") /etc/dbntool/scripts/dupefinder.sh "$3" ;;
 				"help") _help_search "SHOW" ;;
 				*) echo "command incomplete or unrecognized" ;;
 			esac ;;

@@ -219,6 +219,11 @@ logs
 get-printout [CUSTCONTEXT]
 	Prints DBN recording number, Customer Context, Customer DBN DID, and customer recording PIN.
 	Mostly fallen out of use in favor of '$dbntool file export_accounts' which also moves accounts file to the html download directory for company retrieval. 
+duplicates (CR, [CUSTCONTEXT])
+	Run without parameter to search all duplicate numbers within dbn_voicemail.conf
+	Pass customer context to search for duplicate numbers in the customers accounts.csv file and the customer context within dbn_voicemail.conf.
+
+
 ###
 
 

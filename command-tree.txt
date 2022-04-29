@@ -62,3 +62,4 @@ dbntool
 		recording
 		users
 		vmcontext
+		duplicates

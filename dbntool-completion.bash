@@ -25,7 +25,7 @@ _dbntool_complete()
 			"remove") 
 				COMPREPLY=( $(compgen -W "users recording vmcontext help" -- $cur) ) ;;
 			"show") 
-				COMPREPLY=( $(compgen -W "customer-info recording-pin name-recordings logs help" -- $cur) ) ;;
+				COMPREPLY=( $(compgen -W "customer-info recording-pin name-recordings logs help duplicates" -- $cur) ) ;;
 			"file") 
 				COMPREPLY=( $(compgen -W "column-order fix-name accounts.csv vm_conf.add push_dbn_extensions.conf push_dbn_voicemail.conf csv-import export-accounts reorder-accounts help move-users" -- $cur) ) ;;
 			"git") 
@@ -77,6 +77,8 @@ _dbntool_complete()
 
 				"customer-info")
 					COMPREPLY=( $(compgen -W "all $cust_eval" -- $cur ) ) ;;
+				"duplicates")
+					COMPREPLY=( $(compgen -W "$cust_eval" -- $cur ) ) ;;
 			esac
 		fi
 	elif [ $COMP_CWORD -ge 4 ]; then
