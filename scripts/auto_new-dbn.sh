@@ -39,13 +39,14 @@ if [[ $safe_mode == "yes" ]] ; then
 	echo
 	echo "================ formatting inputFile..."
 	dbntool file fix-name -s -i "$inFile"
-	mv ./tempFile.csv ./fix-tempFile.csv
+	#mv ./tempFile.csv ./fix-tempFile.csv
+	cp $tempFile /tmp/dbntool-fix-tempFile.csv
 	echo
 	echo "================ checking directory and recording PIN..."
-	dbntool new dbn-directory -s -c $custContext -i ./fix-tempFile.csv
+	dbntool add dbn-directory -s -c $custContext -i /tmp/dbntool-fix-tempFile.csv
 	echo 
 	echo "================ testing csv-import..."
-	dbntool file csv-import -s -i ./fix-tempFile.csv
+	dbntool file csv-import -s -i /tmp/dbntool-fix-tempFile.csv
 	echo
 	echo "================ testing dbn_voicemail add..."
 	dbntool file push_dbn_voicemail.conf -s -c $custContext 
@@ -58,7 +59,7 @@ if [[ $safe_mode == "yes" ]] ; then
 	
 	add -F flag to run in full exec mode
 	"
-	rm tempFile.csv fix-tempFile.csv acc-tempFile.csv vm-tempFile.csv
+	#rm /tmp/dbntool-tempFile.csv /tmp/dbntool-fix-tempFile.csv /tmp/dbntool-acc-tempFile.csv /tmp/dbntool-vm-tempFile.csv
 	exit
 fi
 

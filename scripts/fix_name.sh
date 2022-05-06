@@ -15,31 +15,31 @@ done
 
 _fix_name () {
 	# remove garbage CLRF and BOM characters
-	tr -d '\r' < $fileName | tr -cd '\11\12\15\40-\176' > tempFile.csv
+	tr -d '\r' < $fileName | tr -cd '\11\12\15\40-\176' > $tempFile
 	# remove header
-	sed -r -i '1{/(Phone|First|Last|Number|first|last|DID|did)/d;}' tempFile.csv
+	sed -r -i '1{/(Phone|First|Last|Number|first|last|DID|did)/d;}' $tempFile
 	# remove double, leading, and trailing spaces
-	sed -r -i 's/(^| |$){2,}//g' tempFile.csv
+	sed -r -i 's/(^| |$){2,}//g' $tempFile
        	# handle double, leading, and trailing delimiters
-	sed -r -i -e 's/( )*,( )*|(,){2,}/,/g' -e 's/^,|,$//g'  tempFile.csv
+	sed -r -i -e 's/( )*,( )*|(,){2,}/,/g' -e 's/^,|,$//g'  $tempFile
 	# adding leading 1 to any number not in 1NPANXXNNNN format
-	sed -r -i 's/(^|,)([0-9]{10})(,|$)/\11\2\3/g' tempFile.csv
+	sed -r -i 's/(^|,)([0-9]{10})(,|$)/\11\2\3/g' $tempFile
 	# remove any " ' " characters
-	sed -i "s/'//g" tempFile.csv
+	sed -i "s/'//g" $tempFile
 	# rearrange columns if DID is in first or second column
-	awk -i inplace -F',' 'BEGIN{ OFS="," } { if ( $1 ~/[0-9]{10}/) print $2,$3,$1; else if ( $2 ~/[0-9]{10}/) print $1,$3,$2; else print $1,$2,$3 }' tempFile.csv
+	awk -i inplace -F',' 'BEGIN{ OFS="," } { if ( $1 ~/[0-9]{10}/) print $2,$3,$1; else if ( $2 ~/[0-9]{10}/) print $1,$3,$2; else print $1,$2,$3 }' $tempFile
 	
 if [[ $safe_mode == "yes" ]] ; then
 	if [[ ! "$fileName" == "$inFile" ]] ; then
 		rm "$fileName"
 	fi
-	file tempFile.csv
+	file $tempFile
 	echo
-	cat tempFile.csv
+	cat $tempFile
 	exit
 else
 	echo "Cleaning up and saving file as $fileName"
-	mv tempFile.csv $fileName
+	mv $tempFile $fileName
 	
 	exit
 fi

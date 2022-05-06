@@ -15,9 +15,9 @@ done
 
 
 _csv_parse() {
-awk -F ',' '{ print NR "," $1 " " $2 "," $3 }'  /tmp/dbntool-tempFile.csv > $dir_ccdbn/$custContext/accounts.csv
-awk -F ',' '{ print $3 " => 12345," $1 " " $2 ",,,"}'  /tmp/dbntool-tempFile.csv > $dir_ccdbn/$custContext/vm_conf.add
-mv  /tmp/dbntool-tempFile.csv $inFile
+awk -F ',' '{ print NR "," $1 " " $2 "," $3 }'  $tempFile > $dir_ccdbn/$custContext/accounts.csv
+awk -F ',' '{ print $3 " => 12345," $1 " " $2 ",,,"}'  $tempFile > $dir_ccdbn/$custContext/vm_conf.add
+mv  $tempFile $inFile
 echo "accounts.csv and vm_conf.add created."
 echo "setting owner and permissions for new files"
 _set_permissions
@@ -28,11 +28,11 @@ _preview_parse () {
 echo
 echo "file additions:"
 echo "accounts.csv"
-awk -F ',' '{ print NR "," $1 " " $2 "," $3 }'  /tmp/dbntool-tempFile.csv > /tmp/dbntool-acc-tempFile.csv
+awk -F ',' '{ print NR "," $1 " " $2 "," $3 }'  $tempFile > /tmp/dbntool-acc-tempFile.csv
 cat /tmp/dbntool-acc-tempFile.csv
 echo
 echo "vm_conf.add"
-awk -F ',' '{ print $3 " => 12345," $1 " " $2 ",,,"}'  /tmp/dbntool-tempFile.csv >  /tmp/dbntool-vm-tempFile.csv
+awk -F ',' '{ print $3 " => 12345," $1 " " $2 ",,,"}'  $tempFile >  /tmp/dbntool-vm-tempFile.csv
 cat  /tmp/dbntool-vm-tempFile.csv
 }
 
@@ -62,7 +62,7 @@ if [[ $? -eq 1 ]] ; then
 	exit 1
 fi
 
-cp $inFile ./tempFile.csv
+cp $inFile $tempFile
 if [[ $flag_mode == "yes" ]] ; then
 	if [[ -f "./accounts.csv" ]] ; then
 		echo "WARNING - accounts.csv already exists for this customer. continuing in flag mode wil overwrite the current accounts.csv file."

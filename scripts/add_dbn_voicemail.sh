@@ -24,7 +24,7 @@ if [[ $safe_mode == "yes" ]] ; then
 	_cust_contextcheck "[$custContext]" "/etc/asterisk/dbn_voicemail.conf"
 	echo "context to be added"
 	echo -e '['$custContext']' 
-	cat ./vm-tempFile.csv
+	cat /tmp/dbntool-vm-tempFile.csv
 	exit
 fi
 
