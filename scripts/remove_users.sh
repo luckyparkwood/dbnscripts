@@ -69,14 +69,6 @@ elif [[ ! -z $(grep -of /tmp/remove_temp.csv $file_dbnvmconf | uniq -d) ]] ; the
 fi
 }
 
-#moved to dbntool functions
-#_cleanup_files () {
-#rm remove_pre.acc 2> /dev/null
-#rm remove_pre.vm 2> /dev/null
-#rm remove_temp.csv 2> /dev/null
-#rm accounts-temp.csv 2> /dev/null
-#rm voicemail-temp.csv 2> /dev/null
-#}
 
 #auto mode
 if [[ $flag_mode == "yes" ]] ; then
@@ -87,7 +79,8 @@ if [[ $flag_mode == "yes" ]] ; then
 	
 	_import_file
 	_check_infile
-	
+	_check_colNum "$inFile"
+
 	if [[ $safe_mode == "yes" ]] ; then
 		_preview_remove
 		_detect_dupes
@@ -104,11 +97,11 @@ if [[ $flag_mode == "yes" ]] ; then
 				exit
 			fi
 		fi
-		
-		mv /tmp/remove_final.vm $file_dbnvmconf
+
+		mv -f /tmp/remove_final.vm $file_dbnvmconf
 		_set_permissions $file_dbnvmconf
 
-		mv /tmp/remove_final.acc "$dir_ccdbn"/"$custContext"/accounts.csv
+		mv -f /tmp/remove_final.acc "$dir_ccdbn"/"$custContext"/accounts.csv
 		_set_permissions "$dir_ccdbn"/"$custContext"/accounts.csv
 
 

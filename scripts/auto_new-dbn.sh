@@ -59,6 +59,7 @@ if [[ $safe_mode == "yes" ]] ; then
 	
 	add -F flag to run in full exec mode
 	"
+	_cleanup_files
 	#rm /tmp/dbntool-tempFile.csv /tmp/dbntool-fix-tempFile.csv /tmp/dbntool-acc-tempFile.csv /tmp/dbntool-vm-tempFile.csv
 	exit
 fi
@@ -92,6 +93,8 @@ dbntool file push_dbn_voicemail.conf -c $custContext
 
 #create context and add dbnNumber to dbn_extensions.conf
 dbntool file push_dbn_extensions.conf -c $custContext -d $dbnNum
+
+_cleanup_files
 
 echo "New DBN for $custContext created and added to production files. Check git diff for errors before pushing to production servers."
 echo "finished"
