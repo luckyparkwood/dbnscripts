@@ -126,9 +126,9 @@ else
 		"admin")
 			case $2 in
 				"update-dbntool") /etc/dbntool/scripts/admin_update-dbntool.sh ;;
-				"update-permissions") admin_update-permissions.sh ;;
-				"dbntool-user_new") admin_dbntool-user_new.sh ;;
-				"dbntool-user_test") admin_dbntool-user_test.sh ;;
+				"update-permissions") /etc/dbntool/scripts/admin_update-permissions.sh ;;
+				"dbntool-user_new") /etc/dbntool/scripts/admin_dbntool-user_new.sh ;;
+				"dbntool-user_test") etc/dbntool/scripts/admin_dbntool-user_test.sh ;;
 				"cleanup-tmpfiles") _cleanup_files ;;	
 				*) echo "command incomplete or unrecognized" ;;
 			esac ;;
