@@ -44,6 +44,7 @@ if [[ ! $print_only == "yes" ]] ; then
 
 
 	#new daily update
+	mkdir -p /var/www/html/ccdbn/$custContext
 	cp /var/lib/asterisk/CCdbn/$custContext/accounts.csv /var/www/html/ccdbn/$custContext/accounts.csv
 	echo "$custContext/accounts.csv copied to /var/www/html/ccdbn/$custContext/accounts.csv"
 else
