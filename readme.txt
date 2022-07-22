@@ -227,7 +227,7 @@ duplicates (CR, [CUSTCONTEXT])
 ###
 
 
-###FILE
+### FILE
 $dbntool file (column-order,fix-name,accounts.csv,vm_conf.add,push_dbn_extensions.conf,push_dbn_voicemail.conf,csv-import,export-accounts,reorder-accounts)
 
 column-order ({1-3} {1-3} {1-3})

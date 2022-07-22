@@ -2,3 +2,6 @@ This is a collection of misc code and scripts that might be helpful at some poin
 
 this line finds all 10 digit numbers and prepends a 1 to the numbers (useful if ppl forget to add the 1 to the input csv)
 sed -i -r 's/([0-9]{10})/1\1/g' Primary_Services_DBN_List.csv
+
+turns accounts format into input format
+awk 'BEGIN {FS =","} ; {print ,}' hirebetter.remove | sed 's/ /,/g'
